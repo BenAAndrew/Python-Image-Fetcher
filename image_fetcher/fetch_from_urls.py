@@ -20,7 +20,7 @@ def get_image_url(page):
     #Convert to values into a dictionary
     object_decode = bytes(object_raw, "utf-8").decode("unicode_escape")
     #Return the image source and where it searched up to
-    final_image_url = loads(object_decode)['ou']
+    final_image_url = loads(object_decode)["ou"]
     return final_image_url, end_object
 
 def get_extension(url):

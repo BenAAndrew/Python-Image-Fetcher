@@ -15,6 +15,7 @@ def get_existing_images(directory):
     list: Returns list of files in the directory (expty if the directory didn't exist)
     """
     validate_directory(directory)
+    directory += '/'
     try:
         return listdir(directory)
     except:
@@ -82,7 +83,7 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     #Download raw HTML from google image search of given term
     page = download_page(search_term, headers)
     #Check if any images already exist to avoid wasting time re-downloading them
-    existing_images = get_existing_images(directory+'/')
+    existing_images = get_existing_images(directory)
     total_already_existing = 0
     total_downloaded = 0
     #If progress bar initialise tqdm

@@ -1,7 +1,10 @@
+def is_alphanumeric(string):
+    return all(char.isalnum() or char.isspace() for char in string)
+
 def validate_directory(directory):
     if not isinstance(directory, str):
         raise TypeError("directory must be a string")
-    if not directory.isalnum():
+    if not is_alphanumeric(directory):
         raise ValueError("directory must be alphanumeric ('/' added automatically)")
 
 def validate_extensions(extensions):
@@ -20,7 +23,7 @@ def validate_headers(headers):
 def validate_download_images_params(search_term, total_images, extensions, headers, directory, verbose, progress_bar):
     if not isinstance(search_term, str):
         raise ValueError("search_term must be a string")
-    if not search_term.isalnum():
+    if not is_alphanumeric(search_term):
         raise ValueError("search_term must be alphanumeric")
     if not isinstance(total_images, int):
         raise TypeError("total_images must be an integer")

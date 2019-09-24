@@ -50,3 +50,16 @@ download_images(
     )
 ```
 Would download images from the search 'Duck' to a folder called 'My duck photos' where the file type was 'png'
+
+```
+from image_fetcher import download_images
+
+download_images(
+        search_term='Ninja', 
+        total_images=20,  
+        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'},
+        progress_bar=False
+        verbose=False
+    )
+```
+Would download 20 images of ninjas and hide the progress bar and summary text. 

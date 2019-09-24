@@ -1,5 +1,6 @@
-from fetch_from_urls import download_url, download_page, get_extension, escape_image_name, get_image_url
+from fetch_from_urls import download_url, get_extension, escape_image_name, get_image_urls
 from validate_params import validate_download_images_params, validate_download_image_params, validate_directory
+from download_page import download_page
 from tqdm import tqdm
 from os import listdir, mkdir
 
@@ -81,7 +82,10 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     
     #Setup variables
     #Download raw HTML from google image search of given term
-    page = download_page(search_term, headers)
+    page = download_page(search_term, total_images)
+    #Get list of iamge URLS from the page
+    urls = get_image_urls(page, total_images, verbose=verbose)
+    print(len(urls))
     #Check if any images already exist to avoid wasting time re-downloading them
     existing_images = get_existing_images(directory)
     total_already_existing = 0
@@ -90,12 +94,10 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     if progress_bar:
         pbar = tqdm(total=total_images)
     
-    #Download images up to given amount
-    while total_downloaded+total_already_existing < total_images:
-        final_image_url, end_object = get_image_url(page)
+    #Download urls from url list
+    for url in urls:
         #Remove already processed section of HTML from the page
-        page = page[end_object:]
-        image = download_image(final_image_url, directory, headers, existing_images, extensions)
+        image = download_image(url, directory, headers, existing_images, extensions)
         if image:
             #if image was downloaded
             if image == 1:

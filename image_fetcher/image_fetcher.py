@@ -24,6 +24,10 @@ def get_existing_images(directory):
         return []
 
 
+def files_in_directory(directory):
+    return len(listdir(directory))
+
+
 def download_image(url, directory, headers, existing_images=None, extensions=['jpg','png'], raise_errors=False):
     """
     Downloads image from given URL
@@ -85,41 +89,49 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     page = download_page(search_term, total_images)
     #Get list of iamge URLS from the page
     urls = get_image_urls(page, verbose=verbose)
-    #Check if any images already exist to avoid wasting time re-downloading them
-    existing_images = get_existing_images(directory)
-    total_already_existing = 0
-    total_downloaded = 0
-    #If progress bar initialise tqdm
-    if progress_bar:
-        pbar = tqdm(total=total_images)
-    
-    #Download urls from url list
-    url_index = 0
-    while total_downloaded+total_already_existing < total_images:
-        #Remove already processed section of HTML from the page
-        image = download_image(urls[url_index], directory, headers, existing_images, extensions)
-        url_index += 1
-        if image:
-            #if image was downloaded
-            if image == 1:
-                total_downloaded+=1
-            #if image was ignored as it was already found
-            else:
-                total_already_existing+=1
-            if progress_bar:
-                pbar.update(1)
-        #If we've run out of URL's due to them being erroneous we'll get more
-        if url_index == len(urls):
+    validated = False
+
+    #Downloading process to follow until correct number of images has been verified
+    while not validated:
+        existing_images = get_existing_images(directory)
+        total_already_existing = len(existing_images)
+        total_downloaded = 0
+        #If progress bar initialise tqdm
+        if progress_bar:
+            pbar = tqdm(total=total_images)
+        pbar.update(total_already_existing)
+        
+        #Download urls from url list
+        url_index = 0
+        while total_downloaded+total_already_existing < total_images:
+            #Remove already processed section of HTML from the page
+            image = download_image(urls[url_index], directory, headers, existing_images, extensions)
+            url_index += 1
+            if image:
+                #if image was downloaded
+                if image == 1:
+                    total_downloaded+=1
+                if progress_bar:
+                    pbar.update(1)
+            #If we've run out of URL's due to them being erroneous we'll get more
+            if url_index == len(urls):
+                if verbose:
+                    print("All URL's attempted, fetching more")
+                page = download_page(search_term, total_images+100)
+                urls = get_image_urls(page, verbose=verbose)
+
+        if progress_bar:
+            pbar.close()
+        if verbose:
+            print("Total downloaded = "+str(total_downloaded))
+            print("Total ignored as they already existed = "+str(total_already_existing))
+
+        if files_in_directory(directory) != total_images:
+            difference = total_images-files_in_directory(directory)
             if verbose:
-                print("All URL's attempted, fetching more")
-            page = download_page(search_term, total_images+100)
-            urls = get_image_urls(page, verbose=verbose)
-    
-    if progress_bar:
-        pbar.close()
-    if verbose:
-        print("Total downloaded = "+str(total_downloaded))
-        print("Total ignored as they already existed = "+str(total_already_existing))
+                print("It appears "+str(difference)+" were missing in the destination directory. Downloading replacements")
+        else:
+            validated = True
 
 
 download_images(

@@ -1,4 +1,4 @@
-from fetch_from_urls import download_url, get_extension, escape_image_name, get_image_urls
+from get_image_urls import download_url, get_extension, escape_image_name, get_image_urls
 from validate_params import validate_download_images_params, validate_download_image_params, validate_directory
 from download_page import download_page
 from tqdm import tqdm
@@ -84,8 +84,7 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     #Download raw HTML from google image search of given term
     page = download_page(search_term, total_images)
     #Get list of iamge URLS from the page
-    urls = get_image_urls(page, total_images, verbose=verbose)
-    print(len(urls))
+    urls = get_image_urls(page, verbose=verbose)
     #Check if any images already exist to avoid wasting time re-downloading them
     existing_images = get_existing_images(directory)
     total_already_existing = 0
@@ -95,9 +94,11 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
         pbar = tqdm(total=total_images)
     
     #Download urls from url list
-    for url in urls:
+    url_index = 0
+    while total_downloaded+total_already_existing < total_images:
         #Remove already processed section of HTML from the page
-        image = download_image(url, directory, headers, existing_images, extensions)
+        image = download_image(urls[url_index], directory, headers, existing_images, extensions)
+        url_index += 1
         if image:
             #if image was downloaded
             if image == 1:
@@ -107,6 +108,12 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
                 total_already_existing+=1
             if progress_bar:
                 pbar.update(1)
+        #If we've run out of URL's due to them being erroneous we'll get more
+        if url_index == len(urls):
+            if verbose:
+                print("All URL's attempted, fetching more")
+            page = download_page(search_term, total_images+100)
+            urls = get_image_urls(page, verbose=verbose)
     
     if progress_bar:
         pbar.close()
@@ -117,7 +124,7 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
 
 download_images(
         search_term='abc', 
-        total_images=10, 
+        total_images=100, 
         extensions=['jpg', 'png'], 
         headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
     )

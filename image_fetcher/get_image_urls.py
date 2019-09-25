@@ -10,7 +10,7 @@ def download_url(url, headers):
     resp.close()
     return data
 
-def get_image_urls(page, total_images, text_file=True, verbose=True):
+def get_image_urls(page, text_file=True, verbose=True):
     image_urls = []
     for image_html in page.find_all("div",{"class":"rg_meta"}):
         try:
@@ -21,7 +21,7 @@ def get_image_urls(page, total_images, text_file=True, verbose=True):
             break
     if verbose:
         print(str(len(image_urls))+" image urls found")
-    return image_urls[:total_images+1]
+    return image_urls
 
 def get_extension(url):
     return url.split(".")[-1]

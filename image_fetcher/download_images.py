@@ -78,19 +78,18 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     progress_bar (bool): Whether to display progress bar during downloading (defaults to True)
     verbose (bool): Whether to print total downloaded & total ignored at the end (defaults to True)
     """
-    
     if not directory:
         directory = search_term
     #Validate passed params
     validate_download_images_params(search_term, total_images, extensions, headers, directory, verbose, progress_bar)
-    
     #Setup variables
     #Download raw HTML from google image search of given term
     page = download_page(search_term, total_images)
+    print(len(page))
     #Get list of iamge URLS from the page
     urls = get_image_urls(page, verbose=verbose)
     validated = False
-
+    
     #Downloading process to follow until correct number of images has been verified
     while not validated:
         existing_images = get_existing_images(directory)
@@ -132,11 +131,3 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
                 print("It appears "+str(difference)+" were missing in the destination directory. Downloading replacements")
         else:
             validated = True
-
-
-download_images(
-        search_term='abc', 
-        total_images=100, 
-        extensions=['jpg', 'png'], 
-        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
-    )

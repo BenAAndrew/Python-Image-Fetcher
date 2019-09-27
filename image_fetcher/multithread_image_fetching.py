@@ -63,7 +63,7 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
             pbar.update(images_in_folder-images_in_folder_before)
 
         #If we've run out of URL's due to them being erroneous we'll get more
-        if url_index == len(urls):
+        if url_index+(total_images-images_in_folder) >= len(urls):
             if verbose:
                 print("All URL's attempted, fetching more")
             page = download_page(search_term, total_images+100)

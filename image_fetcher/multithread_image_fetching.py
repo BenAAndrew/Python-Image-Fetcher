@@ -104,11 +104,3 @@ def concurrent_image_search(search_terms, total_images, headers, max_similtanous
         futures.append(pool.submit(concurrent_images_download, search_terms[i], total_images, headers, max_image_fetching_threads, extensions, directories[i], progress_bar, verbose))
     #Wait for all threads to execute
     wait(futures)
-
-concurrent_image_search(
-    search_terms=['cat','dog'], 
-    max_similtanous_threads=2,
-    max_image_fetching_threads=10,
-    total_images=5, 
-    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
-)

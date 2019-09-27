@@ -117,9 +117,3 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     if verbose:
         print("Total downloaded = "+str(total_downloaded))
         print("Total ignored as they already existed = "+str(total_already_existing))
-
-download_images(
-    search_term='cat', 
-    total_images=10, 
-    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
-)

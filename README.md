@@ -63,3 +63,31 @@ download_images(
     )
 ```
 Would download 20 images of ninjas and hide the progress bar and summary text. 
+
+# Multi-Thread Examples
+Quick start;
+```
+concurrent_image_search(
+    search_terms=['cat','dog'], 
+    max_similtanous_threads=2,
+    max_image_fetching_threads=20,
+    total_images=100, 
+    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
+)
+```
+Key arguments;
+<ul>
+  <li><b>search_terms:</b> The list of search terms to google image search</li>
+  <li><b>max_similtanous_threads:</b> The number of concurrent image fetches to execute</li>
+  <li><b>max_image_fetching_threads:</b> The number of concurrent image downloads to execute per image fetch</li>
+  <li><b>total_images:</b> How many images you want downloaded from these terms</li>
+  <li><b>headers:</b> Browser headers the library uses when making requests. Just use this example if you're not sure what to do. For more information go to https://urllib3.readthedocs.io</li>
+</ul>
+
+Optional Arguments;
+<ul>
+  <li><b>extensions:</b> List of acceptable file extensions (default is jpg & png)</li>
+  <li><b>directories:</b> Names of folder to save images to (default is the same names as the search_terms)</li>
+  <li><b>progress_bar:</b> Whether to display a progress bar (default is True)</li>
+  <li><b>verbose:</b>Whether to print total downloaded & total ignored at the end (default is True)</li>
+</ul>

@@ -34,15 +34,14 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
     #Setup thread executor pool and active threads list
     pool = ThreadPoolExecutor(max_image_fetching_threads)
     futures = []
-    
-    #If progress bar initialise tqdm
-    if progress_bar:
-        pbar = tqdm(total=total_images)
 
     #Get existing images 
     existing_images = get_existing_images(directory)
     images_in_folder = len(existing_images)
+    
+    #If progress bar initialise tqdm
     if progress_bar:
+        pbar = tqdm(total=total_images)
         pbar.update(images_in_folder)
     
     url_index = 0 

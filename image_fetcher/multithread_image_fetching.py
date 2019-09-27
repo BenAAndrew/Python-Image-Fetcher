@@ -1,10 +1,10 @@
-from get_image_urls import download_url, get_extension, escape_image_name, get_image_urls
-from validate_params import validate_download_images_params, validate_download_image_params, validate_directory
+from get_image_urls import get_image_urls
+from validate_params import validate_download_images_params
 from download_images import get_existing_images, download_image
 from download_page import download_page
 from tqdm import tqdm
 from os import listdir, mkdir
-from concurrent.futures import ThreadPoolExecutor, as_completed, wait
+from concurrent.futures import ThreadPoolExecutor, wait
 
 
 def concurrent_images_download(search_term, total_images, headers, max_image_fetching_threads, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):

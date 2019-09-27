@@ -86,25 +86,27 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     urls = get_image_urls(page, verbose=verbose)
 
     existing_images = get_existing_images(directory)
-    total_already_existing = len(existing_images)
+    images_in_folder = len(existing_images)
     total_downloaded = 0
     #If progress bar initialise tqdm
     if progress_bar:
         pbar = tqdm(total=total_images)
-    pbar.update(total_already_existing)
+    pbar.update(images_in_folder)
     
     #Download urls from url list
     url_index = 0
-    while total_downloaded+total_already_existing < total_images:
-        #Remove already processed section of HTML from the page
+    while total_downloaded+images_in_folder < total_images:
+        #Try to download next URL
         image = download_image(urls[url_index], directory, headers, existing_images, extensions)
         url_index += 1
+        
         if image:
             #if image was downloaded
             if image == 1:
                 total_downloaded+=1
             if progress_bar:
                 pbar.update(1)
+
         #If we've run out of URL's due to them being erroneous we'll get more
         if url_index == len(urls):
             if verbose:
@@ -115,5 +117,6 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     if progress_bar:
         pbar.close()
     if verbose:
+        print(search_term+" DONE")
         print("Total downloaded = "+str(total_downloaded))
-        print("Total ignored as they already existed = "+str(total_already_existing))
+        print("Total ignored as they already existed = "+str(images_in_folder))

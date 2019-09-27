@@ -91,7 +91,7 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     #If progress bar initialise tqdm
     if progress_bar:
         pbar = tqdm(total=total_images)
-    pbar.update(images_in_folder)
+        pbar.update(images_in_folder)
     
     #Download urls from url list
     url_index = 0

@@ -42,7 +42,8 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
     #Get existing images 
     existing_images = get_existing_images(directory)
     images_in_folder = len(existing_images)
-    pbar.update(images_in_folder)
+    if progress_bar:
+        pbar.update(images_in_folder)
     
     url_index = 0 
     while images_in_folder != total_images:

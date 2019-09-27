@@ -20,11 +20,11 @@ def validate_headers(headers):
     if 'User-Agent' not in headers:
         raise ValueError("headers must contain User-Agent")
 
-def validate_total_images(total_images):
-    if not isinstance(total_images, int):
-        raise TypeError("total_images must be an integer, "+total_images+" is not")
-    if total_images < 1:
-        raise ValueError("total_images must be greater than 0")
+def validate_positive_number(var, name):
+    if not isinstance(var, int):
+        raise TypeError(name+" must be an integer, "+var+" is not")
+    if var < 1:
+        raise ValueError(name+" must be greater than 0")
 
 def validate_search_term(search_term):
     if not isinstance(search_term, str):
@@ -36,17 +36,17 @@ def validate_bool(var, name):
     if not isinstance(var, bool):
         raise TypeError(name+" must be a bool")
 
-def validate_image_fetching_arguments(total_images, extensions, headers, directory, verbose, progress_bar):
-    validate_total_images(total_images)
+def validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar):
+    validate_positive_number(total_images, "total_images")
     validate_extensions(extensions)
     validate_headers(headers)
-    validate_directory(directory)
     validate_bool(verbose,"verbose")
     validate_bool(progress_bar,"progress_bar")
 
 def validate_download_images_params(search_term, total_images, extensions, headers, directory, verbose, progress_bar):
     validate_search_term(search_term)
-    validate_image_fetching_arguments(total_images, extensions, headers, directory, verbose, progress_bar)
+    validate_directory(directory)
+    validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)
 
 def validate_download_image_params(url, directory, headers, existing_images, extensions, raise_errors):
     if not isinstance(url, str):
@@ -57,10 +57,22 @@ def validate_download_image_params(url, directory, headers, existing_images, ext
         raise TypeError("existing_images must be a list")
     validate_extensions(extensions)
     validate_bool(raise_errors,"raise_errors")
+
+def validate_concurrent_images_download(search_term, total_images, headers, max_image_fetching_threads, extensions, directory, progress_bar, verbose):
+    validate_search_term(search_term)
+    validate_directory(directory)
+    validate_positive_number(max_image_fetching_threads, "max_image_fetching_threads")
+    validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)
     
-def validate_concurrent_image_fetch_params(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, extensions, directory, progress_bar, verbose):
-    if search_terms and not isinstance(search_terms, list):
+def validate_concurrent_image_search_params(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, extensions, directories, progress_bar, verbose):
+    if not isinstance(search_terms, list):
         raise TypeError("search_terms must be a list")
     for search_term in search_terms:
         validate_search_term(search_term)
-    validate_image_fetching_arguments(total_images, extensions, headers, directory, verbose, progress_bar)
+    if not isinstance(directories, list):
+        raise TypeError("search_terms must be a list")
+    for directory in directories:
+        validate_directory(directory)
+    validate_positive_number(max_similtanous_threads, "max_similtanous_threads")
+    validate_positive_number(max_image_fetching_threads, "max_image_fetching_threads")
+    validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)

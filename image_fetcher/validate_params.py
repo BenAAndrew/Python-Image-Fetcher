@@ -73,6 +73,8 @@ def validate_concurrent_image_search_params(search_terms, total_images, headers,
         raise TypeError("search_terms must be a list")
     for directory in directories:
         validate_directory(directory)
+    if len(directories) != len(search_terms):
+        raise ValueError("directories and search_terms must match in length")
     validate_positive_number(max_similtanous_threads, "max_similtanous_threads")
     validate_positive_number(max_image_fetching_threads, "max_image_fetching_threads")
     validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)

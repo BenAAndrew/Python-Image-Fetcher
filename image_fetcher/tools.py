@@ -28,6 +28,15 @@ def get_extension(url):
 
 
 def escape_image_name(url):
+    """
+    Get URL without extension and 'http(s)://' and removes all non alphanumeric characters
+
+    Parameters:
+    url (str): URL to escape
+
+    Returns:
+    str: Escaped URL
+    """
     #Remove extension
     escaped = url[:len(url)-len(url.split('.')[1])-1]
     #Remove http:// or https://
@@ -38,6 +47,7 @@ def escape_image_name(url):
 
 def round_up_to_nearest_hundred(x):
     return int(ceil(x / 100.0)) * 100
+
 
 def print_summary(search_term, total_downloaded, total_ignored):
     print(search_term+" DONE")

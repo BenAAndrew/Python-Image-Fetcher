@@ -8,6 +8,17 @@ from func_timeout import func_timeout, FunctionTimedOut
 
 
 def download_image_simple_with_timeout(url, timeout, directory, headers, existing_images=[], extensions=['jpg','png']):
+    """
+    Downloads image from given URL. Will exit if not complete within timeout seconds. Doesn't validate input params.
+
+    Parameters:
+    url (str): URL to try and download image from
+    timeout (int): Seconds to wait for function to execute
+    directory (str): directory to save image to
+    existing_images (list): list of existing images to avoid trying to download an existing image 
+    (can be fetched by passing the folder name to get_existing_images(), default is []) 
+    extensions (list): Image file extensions to accept (defaults to 'jpg' and 'png')
+    """
     try:
         func_timeout(timeout, download_image_simple, args=(url, directory, headers, existing_images, extensions,))
     except FunctionTimedOut:
@@ -15,6 +26,16 @@ def download_image_simple_with_timeout(url, timeout, directory, headers, existin
 
 
 def download_image_simple(url, directory, headers, existing_images=[], extensions=['jpg','png']):
+    """
+    Downloads image from given URL. Doesn't validate input params.
+
+    Parameters:
+    url (str): URL to try and download image from
+    directory (str): directory to save image to
+    existing_images (list): list of existing images to avoid trying to download an existing image 
+    (can be fetched by passing the folder name to get_existing_images(), default is []) 
+    extensions (list): Image file extensions to accept (defaults to 'jpg' and 'png')
+    """
     try:
         if get_extension(url) in extensions:
             image_name = escape_image_name(url)+'.'+get_extension(url)
@@ -27,15 +48,15 @@ def download_image_simple(url, directory, headers, existing_images=[], extension
         pass
 
 
-def download_image(url, directory, headers, existing_images=None, extensions=['jpg','png'], raise_errors=False):
+def download_image(url, directory, headers, existing_images=[], extensions=['jpg','png'], raise_errors=False):
     """
-    Downloads image from given URL
+    Downloads image from given URL and returns status code
 
     Parameters:
     url (str): URL to try and download image from
     directory (str): directory to save image to
     existing_images (list): list of existing images to avoid trying to download an existing image 
-    (can be fetched by passing the folder name to get_existing_images(), default is None) 
+    (can be fetched by passing the folder name to get_existing_images(), default is []) 
     extensions (list): Image file extensions to accept (defaults to 'jpg' and 'png')
     raise_errors (bool): Whether to raise an error if one occurs during download (default is False)
 
@@ -48,7 +69,7 @@ def download_image(url, directory, headers, existing_images=None, extensions=['j
         if get_extension(url) in extensions:
             #Convert escaped URL to the image name (used to ensure same image isn't downloaded again in future)
             image_name = escape_image_name(url)+'.'+get_extension(url)
-            if not existing_images or image_name not in existing_images:
+            if image_name not in existing_images:
                 data = download_url(url, headers)
                 #Write data from URL request to image
                 output_file = open(directory+'/'+image_name, 'wb')

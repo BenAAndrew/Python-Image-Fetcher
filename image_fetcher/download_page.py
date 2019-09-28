@@ -1,7 +1,9 @@
+from image_fetcher.tools import round_up_to_nearest_hundred
+
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from time import sleep
-from tools import round_up_to_nearest_hundred
+
 
 wait_time = 1
 #As some URL's will likely fail, It's a good idea to fetch more than we need

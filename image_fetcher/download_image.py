@@ -1,7 +1,8 @@
-from get_image_urls import download_url
-from tools import get_extension, escape_image_name
-from validate_params import validate_download_image_params
-from download_page import download_page
+from image_fetcher.get_image_urls import download_url
+from image_fetcher.tools import get_extension, escape_image_name
+from image_fetcher.validate_params import validate_download_image_params
+from image_fetcher.download_page import download_page
+
 from tqdm import tqdm
 from os import listdir
 from func_timeout import func_timeout, FunctionTimedOut

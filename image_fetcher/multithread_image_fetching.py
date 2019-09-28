@@ -1,9 +1,10 @@
-from get_image_urls import get_image_urls
-from validate_params import validate_concurrent_images_download, validate_concurrent_image_search_params
-from download_images import get_existing_images
-from download_image import download_image_simple_with_timeout
-from download_page import download_page
-from tools import print_summary
+from image_fetcher.get_image_urls import get_image_urls
+from image_fetcher.validate_params import validate_concurrent_images_download, validate_concurrent_image_search_params
+from image_fetcher.download_images import get_existing_images
+from image_fetcher.download_image import download_image_simple_with_timeout
+from image_fetcher.download_page import download_page
+from image_fetcher.tools import print_summary
+
 from tqdm import tqdm
 from os import listdir
 from concurrent.futures import ThreadPoolExecutor, wait

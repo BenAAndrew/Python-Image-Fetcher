@@ -1,4 +1,5 @@
-from validate_params import validate_directory
+from image_fetcher.validate_params import validate_directory
+
 from os import listdir, mkdir
 from math import ceil
 from re import sub

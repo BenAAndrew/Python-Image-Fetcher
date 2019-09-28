@@ -1,9 +1,10 @@
-from get_image_urls import get_image_urls
-from validate_params import validate_download_images_params
-from download_page import download_page
-from download_image import download_image
+from image_fetcher.get_image_urls import get_image_urls
+from image_fetcher.validate_params import validate_download_images_params
+from image_fetcher.download_page import download_page
+from image_fetcher.download_image import download_image
+from image_fetcher.tools import get_existing_images, print_summary
+
 from tqdm import tqdm
-from tools import get_existing_images, print_summary
 
 
 def download_images(search_term, total_images, headers, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):

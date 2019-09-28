@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="image_fetcher",
-    version="0.0.1",
+    version="1.0.0",
     author="Ben Andrew",
     author_email="benandrew89@gmail.com",
     description="Package for downloading images from google",

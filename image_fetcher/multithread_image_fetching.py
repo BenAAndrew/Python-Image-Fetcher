@@ -1,13 +1,13 @@
 from get_image_urls import get_image_urls
 from validate_params import validate_concurrent_images_download, validate_concurrent_image_search_params
-from download_images import get_existing_images, download_image_simple
+from download_images import get_existing_images, download_image_simple_with_timeout
 from download_page import download_page
 from tqdm import tqdm
 from os import listdir
 from concurrent.futures import ThreadPoolExecutor, wait
 
 
-def concurrent_images_download(search_term, total_images, headers, max_image_fetching_threads, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
+def concurrent_images_download(search_term, total_images, headers, max_image_fetching_threads, image_download_timeout, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
     """
     Downloads images from google for given search_term using multiple concurrent threads
 
@@ -48,7 +48,7 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
     while images_in_folder != total_images:
         #Append maximum required number of threads (pool will limit the number of ones running concurrently)
         for x in range(0, total_images-images_in_folder):
-            futures.append(pool.submit(download_image_simple, urls[url_index], directory, headers, existing_images, extensions))
+            futures.append(pool.submit(download_image_simple_with_timeout, urls[url_index], image_download_timeout, directory, headers, existing_images, extensions))
             #Increment url_index so each call to download_image will take a different url
             url_index+=1
 
@@ -77,7 +77,7 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
         print("Total ignored as they already existed = "+str(len(existing_images)))
 
 
-def concurrent_image_search(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, extensions=['jpg','png'], directories=None, progress_bar=True, verbose=True):
+def concurrent_image_search(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, image_download_timeout, extensions=['jpg','png'], directories=None, progress_bar=True, verbose=True):
     """
     Downloads images from google for multiple search_terms using multiple concurrent threads
 
@@ -101,6 +101,6 @@ def concurrent_image_search(search_terms, total_images, headers, max_similtanous
     futures = []
     for i in range(0, len(search_terms)):
         #Add new concurrent_images_download process thread for each search term
-        futures.append(pool.submit(concurrent_images_download, search_terms[i], total_images, headers, max_image_fetching_threads, extensions, directories[i], progress_bar, verbose))
+        futures.append(pool.submit(concurrent_images_download, search_terms[i], total_images, headers, max_image_fetching_threads, image_download_timeout, extensions, directories[i], progress_bar, verbose))
     #Wait for all threads to execute
     wait(futures)

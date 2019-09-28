@@ -1,9 +1,10 @@
 # Python-Image-Fetcher (image_fetcher)
 
 A simple lightweight library to download images from google.<br>
-This is originally based on https://github.com/hardikvasa/google-images-download by hardikvasa but with a few key changes;
+This is originally based on https://github.com/hardikvasa/google-images-download by hardikvasa but with a few major changes;
 
 <ul>
+  <li><b>Speed:</b> Through tests outlined in the 'Performance Considerations' section using this library is over <b>6x faster!</b></li>
   <li><b>Simplification:</b> Code has been simplified to make it more understandable and expandable</li>
   <li><b>Reduced download duplication:</b> By using the url from which the image was downloaded to name the file, we can avoid trying to redownload the same file in the future. This was a significant drawback with google_images_download as whenever you wanted to download images again it would redownload ones that already existed making it slower.</li>
   <li><b>Multithreading:</b> Implementing multithreading means you can run multiple google image downloads similtaneously massively increasing throughput when downloading a large selection of images</li>
@@ -109,18 +110,21 @@ Time in seconds to perform various image fetching tasks;
     <th><b>concurrent_image_search</b></th>
     <th><b>concurrent_images_download</b></th>
     <th><b>download_images</b></th>
+    <th><b>google-images-download by hardikvasa</b></th>
   </tr>
   <tr>
     <td>Download 200 cat pictures</td>
     <td><b>23.6</b></td>
     <td><b>22.4</b></td>
     <td><b>92.7</b></td>
+    <td><b>148.4</b></td>
   </tr>
   <tr>
     <td>Download 200 cat & dog pictures</td>
     <td><b>28.7</b></td>
     <td><b>47.7</b></td>
     <td><b>254.2</b></td>
+    <td><b>330.4</b></td>
   </tr>
 </table>
 All tests were ran with the following config;
@@ -136,6 +140,9 @@ Both concurrent_image_search and concurrent_images_download were ran with;
   <li>image_download_timeout=3</li>
 </ul>
 concurrent_image_search was also ran with max_similtanous_threads=2<br>
+
+google-images-download was ran with the following config;
+arguments = {"keywords":"cat", "limit":200, "chromedriver": "chromedriver.exe", "format": "jpg", "print_urls":False}
 
 <b>Explanation;</b><br>
 Understandably in all cases concurrent processing beat out single thread because they are able to download multiple images similtaneously. concurrent_image_search goes one step further with multiple search terms by running them similitaneoulsy, where the other 2 must run one after the other. What's interesting is that concurrent_image_search is slower than concurrent_images_download even though the first actually uses the second when executing. This delay is likely to do with the fact that concurrent_image_search must allocate the call to a thread handler, whereas concurrent_images_download starts immediatly.

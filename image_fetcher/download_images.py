@@ -1,28 +1,9 @@
 from get_image_urls import get_image_urls
-from validate_params import validate_download_images_params, validate_directory
+from validate_params import validate_download_images_params
 from download_page import download_page
 from download_image import download_image
 from tqdm import tqdm
-from os import listdir, mkdir
-
-
-def get_existing_images(directory):
-    """
-    Get's a list of files in a given directory or creates it if the directory doesn't exist
-
-    Parameters:
-    directory (str): directory to search
-
-    Returns:
-    list: Returns list of files in the directory (expty if the directory didn't exist)
-    """
-    validate_directory(directory)
-    directory += '/'
-    try:
-        return listdir(directory)
-    except:
-        mkdir(directory)
-        return []
+from tools import get_existing_images
 
 
 def download_images(search_term, total_images, headers, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):

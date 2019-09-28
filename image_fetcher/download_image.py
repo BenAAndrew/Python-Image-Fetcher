@@ -1,10 +1,11 @@
-from get_image_urls import download_url, get_extension, escape_image_name
+from get_image_urls import download_url
+from tools import get_extension, escape_image_name
 from validate_params import validate_download_image_params
 from download_page import download_page
 from tqdm import tqdm
 from os import listdir
-
 from func_timeout import func_timeout, FunctionTimedOut
+
 
 def download_image_simple_with_timeout(url, timeout, directory, headers, existing_images=[], extensions=['jpg','png']):
     try:

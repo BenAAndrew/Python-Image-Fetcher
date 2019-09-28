@@ -4,3 +4,6 @@ chromedriver.exe
 debug.log
 test.py
 notes.txt
+build/
+dist/
+image_fetcher.egg-info/

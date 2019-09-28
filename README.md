@@ -88,6 +88,53 @@ Optional Arguments;
   <li><b>verbose:</b>Whether to print total downloaded & total ignored at the end (default is True)</li>
 </ul>
 
+# Performance considerations
+Time in seconds to perform various image fetching tasks;
+<table>
+  <tr>
+    <th>Task</th>
+    <th><b>concurrent_image_search</b></th>
+    <th><b>concurrent_images_download</b></th>
+    <th><b>download_images</b></th>
+  </tr>
+  <tr>
+    <td>Download 200 cat pictures</td>
+    <td><b>23.6</b></td>
+    <td><b>22.4</b></td>
+    <td><b>92.7</b></td>
+  </tr>
+  <tr>
+    <td>Download 200 cat & dog pictures</td>
+    <td><b>28.7</b></td>
+    <td><b>47.7</b></td>
+    <td><b>254.2</b></td>
+  </tr>
+</table>
+All tests were ran with the following config;
+<ul>
+  <li>total_images=200</li>
+  <li>headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}</li>
+  <li>progress_bar=False</li>
+  <li>verbose=True</li>
+</ul>
+Both concurrent_image_search and concurrent_images_download were ran with;
+<ul>
+  <li>max_image_fetching_threads=20</li>
+  <li>image_download_timeout=3</li>
+</ul>
+concurrent_image_search was also ran with max_similtanous_threads=2<br>
+
+<b>Explanation;</b><br>
+Understandably in all cases concurrent processing beat out single thread because they are able to download multiple images similtaneously. concurrent_image_search goes one step further with multiple search terms by running them similitaneoulsy, where the other 2 must run one after the other. What's interesting is that concurrent_image_search is slower than concurrent_images_download even though the first actually uses the second when executing. This delay is likely to do with the fact that concurrent_image_search must allocate the call to a thread handler, whereas concurrent_images_download starts immediatly.
+
+<h2>How can you optimise performance?</h2>
+Adjusting the following values will help improve your download speeds. Bear in mind however, that pushing these values too high may cause excessive strain on low performance machines. Adjust these at your own discretion.<br>
+<ul>
+  <li><b>max_image_fetching_threads:</b> This value states how many <b>similtaneous image fetching processes</b> can be executed. Increasing this value typically increases performance, but there is a tradeoff: If allocating too many threads the allocation time may actually take longer than fewer threads. In my tests at 200 images, I've found 20 to be roughly ideal, but play about with it and let me know what you find.</li>
+  <li><b>image_download_timeout:</b> This value states how many seconds an image download will be <b>waited on before abandoning</b>. Decreasing this value will typically increase performance as it means slower downloads will be ignored, but bear in mind that if you set this value too low then too many images may be ignored and this will slow performance. It also means in this event more URL's will need to be fetched which is time consuming. I've found most images standard quality should be downloaded within 1-2 seconds, so typically use 3 for this value.</li>
+  <li><b>max_similtanous_threads (concurrent_image_search only):</b> This value states how many <b>similatenous image search processes</b> can be executed. This is what makes this function more efficent for more searches at the same time (i.e. dogs & cats). For better preformance this value should be equal to how many search terms your making.</li>
+</ul>
+
 # Other examples
 ```
 ...(

@@ -10,7 +10,13 @@ This is originally based on https://github.com/hardikvasa/google-images-download
   <li><b>Progress bar:</b> Added a tqdm progress bar to track how your download was getting on</li>
 </ul>
 
+## Table of Contents  
+[Multi-Thread Multi-Search example](#multi-multi)  
+[Multi-Thread Single-Search example](#multi-single)     
+
+
 # Multi-Thread Examples
+<a name="multi-multi"/>
 <h2>Multiple search terms</h2>
 
 Quick Start;
@@ -44,6 +50,7 @@ Optional Arguments;
   <li><b>verbose:</b>Whether to print total downloaded & total ignored at the end (default is True)</li>
 </ul>
 
+<a name="multi-single"/>
 <h2>Single search terms</h2>
 
 Quick Start;

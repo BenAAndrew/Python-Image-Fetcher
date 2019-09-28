@@ -24,6 +24,19 @@ def get_existing_images(directory):
         return []
 
 
+def download_image_simple(url, directory, headers, existing_images=[], extensions=['jpg','png']):
+    try:
+        if get_extension(url) in extensions:
+            image_name = escape_image_name(url)+'.'+get_extension(url)
+            if image_name not in existing_images:
+                data = download_url(url, headers)
+                output_file = open(directory+'/'+image_name, 'wb')
+                output_file.write(data)
+                output_file.close()
+    except:
+        pass
+
+
 def download_image(url, directory, headers, existing_images=None, extensions=['jpg','png'], raise_errors=False):
     """
     Downloads image from given URL

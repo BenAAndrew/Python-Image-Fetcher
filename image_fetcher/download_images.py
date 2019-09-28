@@ -3,7 +3,7 @@ from validate_params import validate_download_images_params, validate_download_i
 from download_page import download_page
 from tqdm import tqdm
 from os import listdir, mkdir
-
+from func_timeout import func_timeout, FunctionTimedOut
 
 def get_existing_images(directory):
     """
@@ -22,6 +22,13 @@ def get_existing_images(directory):
     except:
         mkdir(directory)
         return []
+
+
+def download_image_simple_with_timeout(url, timeout, directory, headers, existing_images=[], extensions=['jpg','png']):
+    try:
+        func_timeout(timeout, download_image_simple, args=(url, directory, headers, existing_images, extensions,))
+    except FunctionTimedOut:
+        pass
 
 
 def download_image_simple(url, directory, headers, existing_images=[], extensions=['jpg','png']):

@@ -15,6 +15,7 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 [Multi-Thread Single-Search example](#multi-single)      
 [Single-Thread Single-Search example](#single)     
 [Performance Considerations](#performance)    
+[How to optimise](#optimise)  
 [Other examples](#other-examples)   
 
 
@@ -139,6 +140,7 @@ concurrent_image_search was also ran with max_similtanous_threads=2<br>
 <b>Explanation;</b><br>
 Understandably in all cases concurrent processing beat out single thread because they are able to download multiple images similtaneously. concurrent_image_search goes one step further with multiple search terms by running them similitaneoulsy, where the other 2 must run one after the other. What's interesting is that concurrent_image_search is slower than concurrent_images_download even though the first actually uses the second when executing. This delay is likely to do with the fact that concurrent_image_search must allocate the call to a thread handler, whereas concurrent_images_download starts immediatly.
 
+<a name="optimise"/>
 <h2>How can you optimise performance?</h2>
 Adjusting the following values will help improve your download speeds. Bear in mind however, that pushing these values too high may cause excessive strain on low performance machines. Adjust these at your own discretion.<br>
 <ul>
@@ -152,6 +154,7 @@ Simply put it's marginally more reliable. The reason I say this is when you're e
 
 # Other examples
 <a name="other-examples"/>
+
 ```
 ...(
         search_term='Duck'
@@ -160,6 +163,7 @@ Simply put it's marginally more reliable. The reason I say this is when you're e
         directory='My duck photos'
     )
 ```
+
 Would download images using your chosen function (concurrent_images_download or download_images) from the search 'Duck' to a folder called 'My duck photos' where the file type was 'png'
 
 ```
@@ -172,4 +176,5 @@ from image_fetcher import download_images
         verbose=False
     )
 ```
+
 Would download images using your chosen function (concurrent_images_download or download_images) from the search 'Ninja' and hide the progress bar and summary text

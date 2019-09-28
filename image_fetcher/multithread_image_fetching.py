@@ -1,9 +1,9 @@
 from get_image_urls import get_image_urls
 from validate_params import validate_concurrent_images_download, validate_concurrent_image_search_params
-from download_images import get_existing_images, download_image
+from download_images import get_existing_images, download_image_simple
 from download_page import download_page
 from tqdm import tqdm
-from os import listdir, mkdir
+from os import listdir
 from concurrent.futures import ThreadPoolExecutor, wait
 
 
@@ -48,7 +48,7 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
     while images_in_folder != total_images:
         #Append maximum required number of threads (pool will limit the number of ones running concurrently)
         for x in range(0, total_images-images_in_folder):
-            futures.append(pool.submit(download_image, urls[url_index], directory, headers, existing_images, extensions))
+            futures.append(pool.submit(download_image_simple, urls[url_index], directory, headers, existing_images, extensions))
             #Increment url_index so each call to download_image will take a different url
             url_index+=1
 

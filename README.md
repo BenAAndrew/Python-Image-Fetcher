@@ -11,6 +11,8 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 </ul>
 
 # Multi-Thread Examples
+<h2>Multiple search terms</h2>
+
 Quick Start;
 ```
 from multithread_image_fetching import concurrent_image_search
@@ -19,7 +21,8 @@ concurrent_image_search(
     search_terms=['cat','dog'], 
     max_similtanous_threads=2,
     max_image_fetching_threads=20,
-    total_images=100, 
+    image_download_timeout=5,
+    total_images=200, 
     headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
 )
 ```
@@ -28,7 +31,8 @@ Key arguments;
   <li><b>search_terms:</b> The list of search terms to google image search</li>
   <li><b>max_similtanous_threads:</b> The number of concurrent image fetches to execute</li>
   <li><b>max_image_fetching_threads:</b> The number of concurrent image downloads to execute per image fetch</li>
-  <li><b>total_images:</b> How many images you want downloaded from these terms</li>
+  <li><b>image_download_timeout:</b> The number of seconds to wait for an image to be downloaded before abandoning</li>
+  <li><b>total_images:</b> How many images you want downloaded for each of these search terms</li>
   <li><b>headers:</b> Browser headers the library uses when making requests. Just use this example if you're not sure what to do. For more information go to https://urllib3.readthedocs.io</li>
 </ul>
 
@@ -40,8 +44,24 @@ Optional Arguments;
   <li><b>verbose:</b>Whether to print total downloaded & total ignored at the end (default is True)</li>
 </ul>
 
+<h2>Single search terms</h2>
+
+Quick Start;
+```
+from multithread_image_fetching import concurrent_images_download
+
+concurrent_images_download(
+    search_term='cat', 
+    max_image_fetching_threads=20,
+    image_download_timeout=5,
+    total_images=200, 
+    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
+)
+```
+All arguments are the same as above except here search_terms is replaced with <b>search_term</b> as this function only accepts a single term and there is no <b>max_similtanous_threads</b> argument as we are only doing one google image search.
+
 # Single-Thread Examples
-For performance reasons outlined later I would reccommend using muti-threading. However if you choose not to this is how you would implement a single thread execution
+For performance reasons outlined later I would reccommend using muti-threading. However if you choose not to this is how you would implement a single thread execution.
 
 Quick Start;
 ```
@@ -68,29 +88,25 @@ Optional Arguments;
   <li><b>verbose:</b>Whether to print total downloaded & total ignored at the end (default is True)</li>
 </ul>
 
-Other examples;
+# Other examples
 ```
-from image_fetcher import download_images
-
-download_images(
-        search_term='Duck', 
-        total_images=10,  
-        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'},
+...(
+        search_term='Duck'
+        ...
         extensions=['png'],
         directory='My duck photos'
     )
 ```
-Would download images from the search 'Duck' to a folder called 'My duck photos' where the file type was 'png'
+Would download images using your chosen function (concurrent_images_download or download_images) from the search 'Duck' to a folder called 'My duck photos' where the file type was 'png'
 
 ```
 from image_fetcher import download_images
 
-download_images(
+...(
         search_term='Ninja', 
-        total_images=20,  
-        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'},
+        ...
         progress_bar=False
         verbose=False
     )
 ```
-Would download 20 images of ninjas and hide the progress bar and summary text. 
+Would download images using your chosen function (concurrent_images_download or download_images) from the search 'Ninja' and hide the progress bar and summary text

@@ -11,8 +11,11 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 </ul>
 
 ## Table of Contents  
-[Multi-Thread Multi-Search example](#multi-multi)  
-[Multi-Thread Single-Search example](#multi-single)     
+[Multi-Thread Multi-Search example](#multi-multi)   
+[Multi-Thread Single-Search example](#multi-single)      
+[Single-Thread Single-Search example](#single)     
+[Performance Considerations](#performance)    
+[Other examples](#other-examples)   
 
 
 # Multi-Thread Examples
@@ -68,6 +71,7 @@ concurrent_images_download(
 All arguments are the same as above except here search_terms is replaced with <b>search_term</b> as this function only accepts a single term and there is no <b>max_similtanous_threads</b> argument as we are only doing one google image search.
 
 # Single-Thread Examples
+<a name="single"/>
 For performance reasons outlined later I would reccommend using muti-threading. However if you choose not to this is how you would implement a single thread execution.
 
 Quick Start;
@@ -95,7 +99,8 @@ Optional Arguments;
   <li><b>verbose:</b>Whether to print total downloaded & total ignored at the end (default is True)</li>
 </ul>
 
-# Performance considerations
+# Performance Considerations
+<a name="performance"/>
 Time in seconds to perform various image fetching tasks;
 <table>
   <tr>
@@ -142,7 +147,11 @@ Adjusting the following values will help improve your download speeds. Bear in m
   <li><b>max_similtanous_threads (concurrent_image_search only):</b> This value states how many <b>similatenous image search processes</b> can be executed. This is what makes this function more efficent for more searches at the same time (i.e. dogs & cats). For better preformance this value should be equal to how many search terms your making.</li>
 </ul>
 
+<b>Why would I ever use single thread over multi?</b>
+Simply put it's marginally more reliable. The reason I say this is when you're executing multiple threads you increase the complexity and therefore slightly increase the risk of something going wrong. However in the vast majority of my tests I've had no thread-related issues so I wouldn't take concern with this, just treat single thread as a backup/alternative.
+
 # Other examples
+<a name="other-examples"/>
 ```
 ...(
         search_term='Duck'

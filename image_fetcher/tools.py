@@ -38,3 +38,8 @@ def escape_image_name(url):
 
 def round_up_to_nearest_hundred(x):
     return int(ceil(x / 100.0)) * 100
+
+def print_summary(search_term, total_downloaded, total_ignored):
+    print(search_term+" DONE")
+    print("Total downloaded = "+str(total_downloaded))
+    print("Total ignored as they already existed = "+str(total_ignored))

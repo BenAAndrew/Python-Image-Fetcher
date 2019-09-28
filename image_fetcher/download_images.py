@@ -3,7 +3,7 @@ from validate_params import validate_download_images_params
 from download_page import download_page
 from download_image import download_image
 from tqdm import tqdm
-from tools import get_existing_images
+from tools import get_existing_images, print_summary
 
 
 def download_images(search_term, total_images, headers, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
@@ -61,6 +61,4 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     if progress_bar:
         pbar.close()
     if verbose:
-        print(search_term+" DONE")
-        print("Total downloaded = "+str(total_downloaded))
-        print("Total ignored as they already existed = "+str(images_in_folder))
+        print_summary(search_term, total_downloaded=total_downloaded, total_ignored=images_in_folder)

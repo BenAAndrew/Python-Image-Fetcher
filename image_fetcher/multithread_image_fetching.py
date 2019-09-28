@@ -3,6 +3,7 @@ from validate_params import validate_concurrent_images_download, validate_concur
 from download_images import get_existing_images
 from download_image import download_image_simple_with_timeout
 from download_page import download_page
+from tools import print_summary
 from tqdm import tqdm
 from os import listdir
 from concurrent.futures import ThreadPoolExecutor, wait
@@ -73,9 +74,7 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
     if progress_bar:
         pbar.close()
     if verbose:
-        print(search_term+" DONE")
-        print("Total downloaded = "+str(total_images-len(existing_images)))
-        print("Total ignored as they already existed = "+str(len(existing_images)))
+        print_summary(search_term, total_downloaded=total_images-len(existing_images), total_ignored=len(existing_images))
 
 
 def concurrent_image_search(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, image_download_timeout, extensions=['jpg','png'], directories=None, progress_bar=True, verbose=True):

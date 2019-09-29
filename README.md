@@ -27,7 +27,7 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 ```
 pip install image-fetcher
 ```
-Also visit https://chromedriver.chromium.org/downloads to download the correct driver for your version of chrome and save to the same directory as your project (naming it chromedriver.exe)
+Also visit https://chromedriver.chromium.org/downloads to download the correct driver for your version of chrome and save to the same directory as your project (naming it chromedriver.exe) or specify it's path using the <b>chromedriver_path</b> optional param
 (Other browser support coming soon!)
 
 # Multi-Thread Examples
@@ -59,6 +59,7 @@ Key arguments;
 
 Optional Arguments;
 <ul>
+  <li><b>chromedriver_path:</b> Path to chromedriver (default is chromedriver.exe in the current directory)</li>
   <li><b>extensions:</b> List of acceptable file extensions (default is jpg & png)</li>
   <li><b>directories:</b> Names of folder to save images to (default is the same names as the search_terms)</li>
   <li><b>progress_bar:</b> Whether to display a progress bar (default is True)</li>
@@ -105,6 +106,7 @@ Key arguments;
 
 Optional Arguments;
 <ul>
+  <li><b>chromedriver_path:</b> Path to chromedriver (default is chromedriver.exe in the current directory)</li>
   <li><b>extensions:</b> List of acceptable file extensions (default is jpg & png)</li>
   <li><b>directory:</b> Name of folder to save images to (default is same name as the search_term)</li>
   <li><b>progress_bar:</b> Whether to display a progress bar (default is True)</li>
@@ -174,6 +176,15 @@ Simply put it's marginally more reliable. The reason I say this is when you're e
 
 ```
 ...(
+        ...
+        chromedriver_path='../chromedriver.exe'
+    )
+```
+
+Would look for the chromedriver in the directory above the one in which you are executing the method.
+
+```
+...(
         search_term='Duck'
         ...
         extensions=['png'],
@@ -184,8 +195,6 @@ Simply put it's marginally more reliable. The reason I say this is when you're e
 Would download images using your chosen function (concurrent_images_download or download_images) from the search 'Duck' to a folder called 'My duck photos' where the file type was 'png'
 
 ```
-from image_fetcher import download_images
-
 ...(
         search_term='Ninja', 
         ...

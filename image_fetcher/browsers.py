@@ -1,13 +1,24 @@
-from image_fetcher.validate_params import validate_driver
-
 from selenium import webdriver
 from enum import Enum
 from os.path import abspath
+from os import listdir
 
 
 class BrowserType(Enum):
     CHROME = 1
     FIREFOX = 2
+
+
+def validate_driver(driver_path):
+    if "/" in driver_path:
+        driver = driver_path.split("/")[-1]
+        directory = driver_path[0:len(driver_path)-len(driver)-1]
+        if not driver in listdir(directory):
+            raise ValueError(driver+" not found in "+directory)
+    else:
+        driver = driver_path
+        if not driver in listdir():
+            raise ValueError(driver+" not found in current directory")
 
 
 class Browser:

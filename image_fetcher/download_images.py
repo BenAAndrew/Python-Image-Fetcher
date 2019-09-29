@@ -3,11 +3,13 @@ from image_fetcher.validate_params import validate_download_images_params
 from image_fetcher.download_page import download_page
 from image_fetcher.download_image import download_image
 from image_fetcher.tools import get_existing_images, print_summary
+from image_fetcher.browsers import Browser, BrowserType
 
 from tqdm import tqdm
 
 
-def download_images(search_term, total_images, headers, chromedriver_path='chromedriver.exe', extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
+def download_images(search_term, total_images, headers, browser, 
+extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
     """
     Downloads images from google for given search_term
 
@@ -23,10 +25,10 @@ def download_images(search_term, total_images, headers, chromedriver_path='chrom
     if not directory:
         directory = search_term
     #Validate passed params
-    validate_download_images_params(search_term, total_images, extensions, headers, chromedriver_path, directory, verbose, progress_bar)
+    validate_download_images_params(search_term, total_images, extensions, headers, browser, directory, verbose, progress_bar)
     #Setup variables
     #Download raw HTML from google image search of given term
-    page = download_page(search_term, total_images, chromedriver_path)
+    page = download_page(search_term, total_images, browser.webdriver)
     #Get list of iamge URLS from the page
     urls = get_image_urls(page, verbose=verbose)
 

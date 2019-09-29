@@ -28,7 +28,7 @@ extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
     validate_download_images_params(search_term, total_images, extensions, headers, browser, directory, verbose, progress_bar)
     #Setup variables
     #Download raw HTML from google image search of given term
-    page = download_page(search_term, total_images, browser.webdriver)
+    page = download_page(search_term, total_images, browser)
     #Get list of iamge URLS from the page
     urls = get_image_urls(page, verbose=verbose)
 
@@ -58,11 +58,10 @@ extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
         if url_index == len(urls):
             if verbose:
                 print("All URL's attempted, fetching more")
-            page = download_page(search_term, total_images+100, chromedriver_path)
+            page = download_page(search_term, total_images+100, browser)
             urls = get_image_urls(page, verbose=verbose)
 
     if progress_bar:
         pbar.close()
     if verbose:
         print_summary(search_term, total_downloaded=total_downloaded, total_ignored=images_in_folder)
-    browser.webdriver.close()

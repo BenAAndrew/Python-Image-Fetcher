@@ -31,7 +31,7 @@ browser, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=Tr
     validate_concurrent_images_download(search_term, total_images, headers, browser, max_image_fetching_threads, extensions, directory, progress_bar, verbose)
     #Setup variables
     #Download raw HTML from google image search of given term
-    page = download_page(search_term, total_images, browser.webdriver)
+    page = download_page(search_term, total_images, browser)
     #Get list of iamge URLS from the page
     urls = get_image_urls(page, verbose=verbose)
 
@@ -77,7 +77,6 @@ browser, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=Tr
         pbar.close()
     if verbose:
         print_summary(search_term, total_downloaded=total_images-len(existing_images), total_ignored=len(existing_images))
-    browser.webdriver.close()
 
 
 def concurrent_image_search(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, 
@@ -108,4 +107,3 @@ image_download_timeout, browser, extensions=['jpg','png'], directories=None, pro
         futures.append(pool.submit(concurrent_images_download, search_terms[i], total_images, headers, max_image_fetching_threads, image_download_timeout, browser, extensions, directories[i], progress_bar, verbose))
     #Wait for all threads to execute
     wait(futures)
-    browser.webdriver.close()

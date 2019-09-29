@@ -7,3 +7,4 @@ notes.txt
 build/
 dist/
 image_fetcher.egg-info/
+*.log

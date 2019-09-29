@@ -9,6 +9,7 @@ This is originally based on https://github.com/hardikvasa/google-images-download
   <li><b>Simplification:</b> Code has been simplified to make it more understandable and expandable</li>
   <li><b>Reduced download duplication:</b> By using the url from which the image was downloaded to name the file, we can avoid trying to redownload the same file in the future. This was a significant drawback with google_images_download as whenever you wanted to download images again it would redownload ones that already existed making it slower.</li>
   <li><b>Multithreading:</b> Implementing multithreading means you can run multiple google image downloads similtaneously massively increasing throughput when downloading a large selection of images</li>
+  <li><b>Extended browser support:</b> Added Firefox support and further configurations to come</li>
   <li><b>Progress bar:</b> Added a tqdm progress bar to track how your download was getting on</li>
 </ul>
 
@@ -16,7 +17,8 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 [Install](#install)   
 [Multi-Thread Multi-Search example](#multi-multi)   
 [Multi-Thread Single-Search example](#multi-single)      
-[Single-Thread Single-Search example](#single)     
+[Single-Thread Single-Search example](#single)   
+[Browser](#browser)  
 [Performance Considerations](#performance)    
 [How to optimise](#optimise)  
 [Other examples](#other-examples)   
@@ -27,8 +29,11 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 ```
 pip install image-fetcher
 ```
-Also visit https://chromedriver.chromium.org/downloads to download the correct driver for your version of chrome and save to the same directory as your project (naming it chromedriver.exe) or specify it's path using the <b>chromedriver_path</b> optional param
-(Other browser support coming soon!)
+Then download the driver for your browser (and OS) of choice;
+<ul>
+  <li><b>Chrome:</b> https://chromedriver.chromium.org/downloads (download the correct driver for your version of chrome)</li>
+  <li><b>Firefox:</b> https://github.com/mozilla/geckodriver/releases</li>
+</ul>
 
 # Multi-Thread Examples
 <a name="multi-multi"/>
@@ -120,6 +125,28 @@ Optional Arguments;
   <li><b>progress_bar:</b> Whether to display a progress bar (default is True)</li>
   <li><b>verbose:</b>Whether to print total downloaded & total ignored at the end (default is True)</li>
 </ul>
+
+# Browser
+<a name="browser"/>
+The Browser object is used to let you easily connect to your browser of choice.
+It takes two arguments;
+<ul>
+  <li><b>browser_type:</b> The BrowserType you want (also imported from image_fetcher.browsers)</li>
+  <li><b>driver:</b> The relative path to the browser executable</li>
+</ul>
+Currently two browsers are supported: <b>Chrome</b> & <b>Firefox</b>.
+
+## Chrome
+```
+browser = Browser(BrowserType.CHROME, 'chromedriver.exe')
+```
+
+## Firefox
+```
+browser = Browser(BrowserType.FIREFOX, 'geckodriver.exe')
+```
+
+In both these cases the driver is an exe in the same directory. Change/remove the extensions depending on your driver type. For different directories just append the path i.e. <b>../chromedriver.exe</b> would look in the directory above.
 
 # Performance Considerations
 <a name="performance"/>

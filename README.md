@@ -62,7 +62,7 @@ Key arguments;
   <li><b>image_download_timeout:</b> The number of seconds to wait for an image to be downloaded before abandoning</li>
   <li><b>total_images:</b> How many images you want downloaded for each of these search terms</li>
   <li><b>headers:</b> Browser headers the library uses when making requests. Just use this example if you're not sure what to do. For more information go to https://urllib3.readthedocs.io</li>
-  <li><b>browser:</b> Browser object to fetch URL's from. This must be an instance of a Browser which takes browser type and the path to it's driver executable. For more information jump to the Browser section</li>
+  <li><b>browser:</b> Browser object to fetch URL's from. This must be an instance of a Browser which takes browser type and the path to it's driver executable. For more information jump to the <a href="#browser">Browser</a> section</li>
 </ul>
 
 Optional Arguments;
@@ -114,7 +114,7 @@ Key arguments;
   <li><b>search_term:</b> The search term to google image search</li>
   <li><b>total_images:</b> How many images you want downloaded from this term</li>
   <li><b>headers:</b> Browser headers the library uses when making requests. Just use this example if you're not sure what to do. For more information go to https://urllib3.readthedocs.io</li>
-  <li><b>browser:</b> Browser object to fetch URL's from. This must be an instance of a Browser which takes browser type and the path to it's driver executable. For more information jump to the Browser section</li>
+  <li><b>browser:</b> Browser object to fetch URL's from. This must be an instance of a Browser which takes browser type and the path to it's driver executable. For more information jump to the <a href="#browser">Browser</a> section</li>
 </ul>
 
 Optional Arguments;

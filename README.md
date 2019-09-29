@@ -137,11 +137,13 @@ It takes two arguments;
 Currently two browsers are supported: <b>Chrome</b> & <b>Firefox</b>.
 
 ## Chrome
+Download the driver at https://chromedriver.chromium.org/downloads
 ```
 browser = Browser(BrowserType.CHROME, 'chromedriver.exe')
 ```
 
 ## Firefox
+Download the driver at https://github.com/mozilla/geckodriver/releases
 ```
 browser = Browser(BrowserType.FIREFOX, 'geckodriver.exe')
 ```

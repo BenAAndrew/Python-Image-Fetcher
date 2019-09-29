@@ -12,7 +12,8 @@ This is originally based on https://github.com/hardikvasa/google-images-download
   <li><b>Progress bar:</b> Added a tqdm progress bar to track how your download was getting on</li>
 </ul>
 
-## Table of Contents  
+## Table of Contents 
+[Install](#install)   
 [Multi-Thread Multi-Search example](#multi-multi)   
 [Multi-Thread Single-Search example](#multi-single)      
 [Single-Thread Single-Search example](#single)     
@@ -20,6 +21,14 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 [How to optimise](#optimise)  
 [Other examples](#other-examples)   
 
+# Install
+<a name="multi-multi"/>
+
+```
+pip install image-fetcher
+```
+Also visit https://chromedriver.chromium.org/downloads to download the correct driver for your version of chrome and save to the same directory as your project (naming it chromedriver.exe)
+(Other browser support coming soon!)
 
 # Multi-Thread Examples
 <a name="multi-multi"/>

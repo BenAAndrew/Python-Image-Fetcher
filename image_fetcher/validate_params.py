@@ -81,9 +81,7 @@ def validate_concurrent_images_download(search_term, total_images, headers, driv
     validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)
     
 def validate_concurrent_image_search_params(search_terms, total_images, headers, driver_path, max_similtanous_threads, max_image_fetching_threads, extensions, directories, progress_bar, verbose):
-    print("hi")
     validate_driver(driver_path)
-    print("ho")
     if not isinstance(search_terms, list):
         raise TypeError("search_terms must be a list")
     for search_term in search_terms:

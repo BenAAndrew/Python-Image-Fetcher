@@ -8,3 +8,4 @@ build/
 dist/
 image_fetcher.egg-info/
 *.log
+upload.bat

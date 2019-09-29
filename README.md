@@ -36,7 +36,7 @@ Also visit https://chromedriver.chromium.org/downloads to download the correct d
 
 Quick Start;
 ```
-from multithread_image_fetching import concurrent_image_search
+from image_fetcher.multithread_image_fetching import concurrent_image_search
 
 concurrent_image_search(
     search_terms=['cat','dog'], 
@@ -70,7 +70,7 @@ Optional Arguments;
 
 Quick Start;
 ```
-from multithread_image_fetching import concurrent_images_download
+from image_fetcher.multithread_image_fetching import concurrent_images_download
 
 concurrent_images_download(
     search_term='cat', 
@@ -88,7 +88,7 @@ For performance reasons outlined later I would reccommend using muti-threading. 
 
 Quick Start;
 ```
-from image_fetcher import download_images
+from image_fetcher.image_fetcher import download_images
 
 download_images(
         search_term='Dog', 

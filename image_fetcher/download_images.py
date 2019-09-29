@@ -65,3 +65,4 @@ extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
         pbar.close()
     if verbose:
         print_summary(search_term, total_downloaded=total_downloaded, total_ignored=images_in_folder)
+    browser.webdriver.close()

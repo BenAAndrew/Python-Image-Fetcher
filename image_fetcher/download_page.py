@@ -24,5 +24,4 @@ def download_page(search_term, total_images, browser):
         browser.execute_script('window.scrollTo(0,document.body.scrollHeight);')
         sleep(wait_time)
     source = browser.page_source
-    browser.close()
     return BeautifulSoup(source, 'html.parser')

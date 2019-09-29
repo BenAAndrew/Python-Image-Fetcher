@@ -1,3 +1,5 @@
+from os import listdir
+
 def is_alphanumeric(string):
     return all(char.isalnum() or char.isspace() for char in string)
 
@@ -36,6 +38,18 @@ def validate_bool(var, name):
     if not isinstance(var, bool):
         raise TypeError(name+" must be a bool")
 
+def validate_chromedriver(chromedriver):
+    if "/" in chromedriver:
+        driver = chromedriver.split("/")[-1]
+        directory = chromedriver[0:len(chromedriver)-len(driver)-1]
+        if not driver in listdir(directory):
+            raise ValueError(driver+" not found in "+directory)
+    else:
+        driver = chromedriver
+        if not driver in listdir():
+            raise ValueError(driver+" not found in current directory")
+    
+
 def validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar):
     validate_positive_number(total_images, "total_images")
     validate_extensions(extensions)
@@ -43,7 +57,8 @@ def validate_image_fetching_arguments(total_images, extensions, headers, verbose
     validate_bool(verbose,"verbose")
     validate_bool(progress_bar,"progress_bar")
 
-def validate_download_images_params(search_term, total_images, extensions, headers, directory, verbose, progress_bar):
+def validate_download_images_params(search_term, total_images, extensions, headers, chromedriver_path, directory, verbose, progress_bar):
+    validate_chromedriver(chromedriver_path)
     validate_search_term(search_term)
     validate_directory(directory)
     validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)
@@ -58,13 +73,17 @@ def validate_download_image_params(url, directory, headers, existing_images, ext
     validate_extensions(extensions)
     validate_bool(raise_errors,"raise_errors")
 
-def validate_concurrent_images_download(search_term, total_images, headers, max_image_fetching_threads, extensions, directory, progress_bar, verbose):
+def validate_concurrent_images_download(search_term, total_images, headers, chromedriver_path, max_image_fetching_threads, extensions, directory, progress_bar, verbose):
+    validate_chromedriver(chromedriver_path)
     validate_search_term(search_term)
     validate_directory(directory)
     validate_positive_number(max_image_fetching_threads, "max_image_fetching_threads")
     validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)
     
-def validate_concurrent_image_search_params(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, extensions, directories, progress_bar, verbose):
+def validate_concurrent_image_search_params(search_terms, total_images, headers, chromedriver_path, max_similtanous_threads, max_image_fetching_threads, extensions, directories, progress_bar, verbose):
+    print("hi")
+    validate_chromedriver(chromedriver_path)
+    print("ho")
     if not isinstance(search_terms, list):
         raise TypeError("search_terms must be a list")
     for search_term in search_terms:

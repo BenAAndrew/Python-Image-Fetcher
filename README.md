@@ -24,7 +24,7 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 <a href="#other-examples">Other examples</a><br>
 
 # Install
-<a name="multi-multi"/>
+<a name="install"/>
 
 ```
 pip install image-fetcher

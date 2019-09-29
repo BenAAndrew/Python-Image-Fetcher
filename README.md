@@ -37,6 +37,7 @@ Also visit https://chromedriver.chromium.org/downloads to download the correct d
 Quick Start;
 ```
 from image_fetcher.multithread_image_fetching import concurrent_image_search
+from image_fetcher.browsers import Browser, BrowserType
 
 concurrent_image_search(
     search_terms=['cat','dog'], 
@@ -44,7 +45,8 @@ concurrent_image_search(
     max_image_fetching_threads=20,
     image_download_timeout=5,
     total_images=200, 
-    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
+    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'},
+    browser=Browser(BrowserType.CHROME, 'chromedriver.exe')
 )
 ```
 Key arguments;
@@ -55,6 +57,7 @@ Key arguments;
   <li><b>image_download_timeout:</b> The number of seconds to wait for an image to be downloaded before abandoning</li>
   <li><b>total_images:</b> How many images you want downloaded for each of these search terms</li>
   <li><b>headers:</b> Browser headers the library uses when making requests. Just use this example if you're not sure what to do. For more information go to https://urllib3.readthedocs.io</li>
+  <li><b>browser:</b> Browser object to fetch URL's from. This must be an instance of a Browser which takes browser type and the path to it's driver executable. For more information jump to the Browser section</li>
 </ul>
 
 Optional Arguments;
@@ -72,13 +75,15 @@ Optional Arguments;
 Quick Start;
 ```
 from image_fetcher.multithread_image_fetching import concurrent_images_download
+from image_fetcher.browsers import Browser, BrowserType
 
 concurrent_images_download(
     search_term='cat', 
     max_image_fetching_threads=20,
     image_download_timeout=5,
     total_images=200, 
-    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
+    headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'},
+    browser=Browser(BrowserType.CHROME, 'chromedriver.exe')
 )
 ```
 All arguments are the same as above except here search_terms is replaced with <b>search_term</b> as this function only accepts a single term and there is no <b>max_similtanous_threads</b> argument as we are only doing one google image search.
@@ -90,11 +95,13 @@ For performance reasons outlined later I would reccommend using muti-threading. 
 Quick Start;
 ```
 from image_fetcher.image_fetcher import download_images
+from image_fetcher.browsers import Browser, BrowserType
 
 download_images(
         search_term='Dog', 
         total_images=10,  
-        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
+        headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'},
+        browser=Browser(BrowserType.CHROME, 'chromedriver.exe')
     )
 ```
 Key arguments;
@@ -102,6 +109,7 @@ Key arguments;
   <li><b>search_term:</b> The search term to google image search</li>
   <li><b>total_images:</b> How many images you want downloaded from this term</li>
   <li><b>headers:</b> Browser headers the library uses when making requests. Just use this example if you're not sure what to do. For more information go to https://urllib3.readthedocs.io</li>
+  <li><b>browser:</b> Browser object to fetch URL's from. This must be an instance of a Browser which takes browser type and the path to it's driver executable. For more information jump to the Browser section</li>
 </ul>
 
 Optional Arguments;

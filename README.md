@@ -14,7 +14,7 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 </ul>
 
 ## Table of Contents 
-[Install](#install)   
+<a href="#install">Install</a> 
 [Multi-Thread Multi-Search example](#multi-multi)   
 [Multi-Thread Single-Search example](#multi-single)      
 [Single-Thread Single-Search example](#single)   

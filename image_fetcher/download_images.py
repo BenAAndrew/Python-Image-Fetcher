@@ -7,7 +7,7 @@ from image_fetcher.tools import get_existing_images, print_summary
 from tqdm import tqdm
 
 
-def download_images(search_term, total_images, headers, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
+def download_images(search_term, total_images, headers, chromedriver_path='chromedriver.exe', extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
     """
     Downloads images from google for given search_term
 
@@ -23,10 +23,10 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
     if not directory:
         directory = search_term
     #Validate passed params
-    validate_download_images_params(search_term, total_images, extensions, headers, directory, verbose, progress_bar)
+    validate_download_images_params(search_term, total_images, extensions, headers, chromedriver_path, directory, verbose, progress_bar)
     #Setup variables
     #Download raw HTML from google image search of given term
-    page = download_page(search_term, total_images)
+    page = download_page(search_term, total_images, chromedriver_path)
     #Get list of iamge URLS from the page
     urls = get_image_urls(page, verbose=verbose)
 
@@ -56,7 +56,7 @@ def download_images(search_term, total_images, headers, extensions=['jpg','png']
         if url_index == len(urls):
             if verbose:
                 print("All URL's attempted, fetching more")
-            page = download_page(search_term, total_images+100)
+            page = download_page(search_term, total_images+100, chromedriver_path)
             urls = get_image_urls(page, verbose=verbose)
 
     if progress_bar:

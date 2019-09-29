@@ -10,7 +10,8 @@ from os import listdir
 from concurrent.futures import ThreadPoolExecutor, wait
 
 
-def concurrent_images_download(search_term, total_images, headers, max_image_fetching_threads, image_download_timeout, extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
+def concurrent_images_download(search_term, total_images, headers, max_image_fetching_threads, image_download_timeout, 
+chromedriver_path='chromedriver.exe', extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
     """
     Downloads images from google for given search_term using multiple concurrent threads
 
@@ -27,10 +28,10 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
     if not directory:
         directory = search_term
     #Validate passed params
-    validate_concurrent_images_download(search_term, total_images, headers, max_image_fetching_threads, extensions, directory, progress_bar, verbose)
+    validate_concurrent_images_download(search_term, total_images, headers, chromedriver_path, max_image_fetching_threads, extensions, directory, progress_bar, verbose)
     #Setup variables
     #Download raw HTML from google image search of given term
-    page = download_page(search_term, total_images)
+    page = download_page(search_term, total_images, chromedriver_path)
     #Get list of iamge URLS from the page
     urls = get_image_urls(page, verbose=verbose)
 
@@ -69,7 +70,7 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
         if url_index+(total_images-images_in_folder) >= len(urls):
             if verbose:
                 print("All URL's attempted, fetching more")
-            page = download_page(search_term, total_images+100)
+            page = download_page(search_term, total_images+100, chromedriver_path)
             urls = get_image_urls(page, verbose=verbose)
 
     if progress_bar:
@@ -78,7 +79,8 @@ def concurrent_images_download(search_term, total_images, headers, max_image_fet
         print_summary(search_term, total_downloaded=total_images-len(existing_images), total_ignored=len(existing_images))
 
 
-def concurrent_image_search(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, image_download_timeout, extensions=['jpg','png'], directories=None, progress_bar=True, verbose=True):
+def concurrent_image_search(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, 
+image_download_timeout, chromedriver_path='chromedriver.exe', extensions=['jpg','png'], directories=None, progress_bar=True, verbose=True):
     """
     Downloads images from google for multiple search_terms using multiple concurrent threads
 
@@ -96,12 +98,12 @@ def concurrent_image_search(search_terms, total_images, headers, max_similtanous
     if not directories:
         directories = search_terms
     #Validate passed params
-    validate_concurrent_image_search_params(search_terms, total_images, headers, max_similtanous_threads, max_image_fetching_threads, extensions, directories, progress_bar, verbose)
+    validate_concurrent_image_search_params(search_terms, total_images, headers, chromedriver_path, max_similtanous_threads, max_image_fetching_threads, extensions, directories, progress_bar, verbose)
     #Setup thread executor pool and active threads list
     pool = ThreadPoolExecutor(max_image_fetching_threads)
     futures = []
     for i in range(0, len(search_terms)):
         #Add new concurrent_images_download process thread for each search term
-        futures.append(pool.submit(concurrent_images_download, search_terms[i], total_images, headers, max_image_fetching_threads, image_download_timeout, extensions, directories[i], progress_bar, verbose))
+        futures.append(pool.submit(concurrent_images_download, search_terms[i], total_images, headers, max_image_fetching_threads, image_download_timeout, chromedriver_path, extensions, directories[i], progress_bar, verbose))
     #Wait for all threads to execute
     wait(futures)

@@ -14,14 +14,14 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 </ul>
 
 ## Table of Contents 
-<a href="#install">Install</a> 
-[Multi-Thread Multi-Search example](#multi-multi)   
-[Multi-Thread Single-Search example](#multi-single)      
-[Single-Thread Single-Search example](#single)   
-[Browser](#browser)  
-[Performance Considerations](#performance)    
-[How to optimise](#optimise)  
-[Other examples](#other-examples)   
+<a href="#install">Install</a><br>
+<a href="#multi-multi">Multi-Thread Multi-Search example</a><br>
+<a href="#multi-single">Multi-Thread Single-Search example</a><br>
+<a href="#single">Single-Thread Single-Search example</a><br>
+<a href="#browser">Browser</a><br>
+<a href="#performance">Performance Considerations</a><br>
+<a href="#optimise">How to optimise</a><br>
+<a href="#other-examples">Other examples</a><br>
 
 # Install
 <a name="multi-multi"/>

@@ -1,3 +1,15 @@
 site_name: Python-Image-Fetcher
 theme:
-    name: 'material'
+  name: null
+  custom_dir: 'mkdocs-material/material'
+  language: 'en'
+  palette:
+    primary: 'indigo'
+    accent: 'indigo'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+  logo:
+    icon: 'cloud'
+  feature:
+    tabs: false

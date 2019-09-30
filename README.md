@@ -213,6 +213,15 @@ Simply put it's marginally more reliable. The reason I say this is when you're e
 
 ```
 ...(
+        ...
+        chromedriver_path='../chromedriver.exe'
+    )
+```
+
+Would look for the chromedriver in the directory above the one in which you are executing the method.
+
+```
+...(
         search_term='Duck'
         ...
         extensions=['png'],

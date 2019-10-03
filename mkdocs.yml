@@ -1,4 +1,6 @@
 site_name: Python-Image-Fetcher
+repo_name: 'Python-Image-Fetcher'
+repo_url: 'https://github.com/BenAAndrew/Python-Image-Fetcher'
 theme:
   name: null
   custom_dir: 'docs-template/mkdocs-material/material'

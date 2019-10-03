@@ -16,3 +16,13 @@ This is originally based on https://github.com/hardikvasa/google-images-download
 * **Multithreading:** Implementing multithreading means you can run multiple google image downloads similtaneously massively increasing throughput when downloading a large selection of images
 * **Extended browser support:** Added Firefox support and further configurations to come
 * **Progress bar:** Added a tqdm progress bar to track how your download was getting on
+
+## Contact me
+
+If you find this library at all helpful or have any suggestions please write to me at;
+
+```
+benandrew89@gmail.com
+```
+
+I'd love to hear any thoughts :D

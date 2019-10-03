@@ -1,7 +1,7 @@
 site_name: Python-Image-Fetcher
 theme:
   name: null
-  custom_dir: 'docs/mkdocs-material/material'
+  custom_dir: 'docs-template/mkdocs-material/material'
   language: 'en'
   palette:
     primary: 'indigo'

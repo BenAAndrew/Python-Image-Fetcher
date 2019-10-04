@@ -7,7 +7,7 @@ https://github.com/BenAAndrew/Python-Image-Fetcher
 Last stable release == 1.1.3
 
 
-# [Download](https://pypi.org/project/image-fetcher/ "Python Image Fetcher") 
+# [Install](https://pypi.org/project/image-fetcher/ "Python Image Fetcher") 
 
 
 # [Documentation](https://python-image-fetcher.readthedocs.io/ "Python Image Fetcher")

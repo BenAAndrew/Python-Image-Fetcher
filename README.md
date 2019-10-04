@@ -5,7 +5,7 @@ https://github.com/BenAAndrew/Python-Image-Fetcher
 ## A simple lightweight library to download images from google.
 
 
-# [Download](https://pypi.org/project/image-fetcher/ "Download)
+# [Download](https://pypi.org/project/image-fetcher/ "Python Image Fetcher")
 ## last stable release == 1.1.3
 
 

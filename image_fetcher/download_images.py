@@ -51,6 +51,9 @@ def multi_thread_image_download(
     image_download_timeout (int): maximum wait time in seconds for an image download
     directory (str): destination directory path
     verbose (bool): show tqdm progress bar
+
+    Returns:
+    int: total files in the directory
     """
     # If urls is not a list is must be a path to a file with a list of urls
     if not isinstance(urls, list):

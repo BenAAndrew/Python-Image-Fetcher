@@ -20,10 +20,6 @@ def download_url(url, headers):
     return data
 
 
-def get_extension(url):
-    return url.split(".")[-1]
-
-
 def escape_image_name(url):
     """
     Get URL without extension and 'http(s)://' and removes all non alphanumeric characters
@@ -34,9 +30,10 @@ def escape_image_name(url):
     Returns:
     str: Escaped URL
     """
-    #Remove extension
-    escaped = url[:len(url)-len(url.split('.')[1])-1]
-    #Remove http:// or https://
-    escaped = escaped.split('/',1)[1]
-    #Remove all non alphanumeric characters
-    return sub("[^a-zA-Z0-9]+", '', escaped)
+    extension = url.split(".")[-1]
+    # Remove extension
+    escaped = url[: -len(extension) - 1]
+    # Remove http:// or https://
+    escaped = escaped.split("/", 1)[1]
+    # Remove all non alphanumeric characters
+    return f"{sub('[^a-zA-Z0-9]+', '', escaped)}.{extension}"

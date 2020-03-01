@@ -2,8 +2,11 @@ from time import sleep
 
 
 def fetch_images_from_yahoo(driver, search_term, total_images):
-    driver.get("https://images.search.yahoo.com/search/images;_ylt=AwrJ6wpW01pe8XIAgY2LuLkF;_ylc=X1MDOTYwNTc0ODMEX3IDMgRmcgMEZ3ByaWQDbzhOdGw3UkpURzZlR0ZDbTdhcHFDQQRuX3N1Z2cDNQRvcmlnaW4DaW1hZ2VzLnNlYXJjaC55YWhvby5jb20EcG9zAzAEcHFzdHIDBHBxc3RybAMEcXN0cmwDMwRxdWVyeQNhYmMEdF9zdG1wAzE1ODMwMTEwMDk-?p="+search_term)
-    driver.find_element_by_css_selector("button[type=\"submit\"]").click()
+    driver.get(
+        "https://images.search.yahoo.com/search/images;_ylt=AwrJ6wpW01pe8XIAgY2LuLkF;_ylc=X1MDOTYwNTc0ODMEX3IDMgRmcgMEZ3ByaWQDbzhOdGw3UkpURzZlR0ZDbTdhcHFDQQRuX3N1Z2cDNQRvcmlnaW4DaW1hZ2VzLnNlYXJjaC55YWhvby5jb20EcG9zAzAEcHFzdHIDBHBxc3RybAMEcXN0cmwDMwRxdWVyeQNhYmMEdF9zdG1wAzE1ODMwMTEwMDk-?p="
+        + search_term
+    )
+    driver.find_element_by_css_selector('button[type="submit"]').click()
 
     icons = driver.find_element_by_tag_name("img").click()
     urls = set()

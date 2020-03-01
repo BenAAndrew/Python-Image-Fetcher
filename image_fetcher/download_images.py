@@ -1,22 +1,21 @@
 import os
-from concurrent.futures import ThreadPoolExecutor, wait
-from os import mkdir, listdir
+from concurrent.futures import ThreadPoolExecutor, wait, as_completed
 
 from func_timeout import func_timeout, FunctionTimedOut
-from image_fetcher.tools import escape_image_name, get_extension, download_url
+from tqdm import tqdm
+
+from image_fetcher.tools import escape_image_name, download_url
 
 
-def download_image_simple_with_timeout(url, timeout, directory, headers):
+def download_image_simple_with_timeout(url: str, timeout: int, directory: str, headers):
     """
     Downloads image from given URL. Will exit if not complete within timeout seconds. Doesn't validate input params.
 
     Parameters:
     url (str): URL to try and download image from
-    timeout (int): Seconds to wait for function to execute
+    timeout (int): seconds to wait for function to execute
     directory (str): directory to save image to
-    existing_images (list): list of existing images to avoid trying to download an existing image
-    (can be fetched by passing the folder name to get_existing_images(), default is [])
-    extensions (list): Image file extensions to accept (defaults to 'jpg' and 'png')
+    headers (dict): headers for the urllib file request
     """
     try:
         func_timeout(timeout, download_image, args=(url, directory, headers,))
@@ -33,35 +32,42 @@ def download_image(url: str, directory: str, headers: dict):
     directory (str): directory to save image to
     headers (dict): headers for the urllib file request
     """
-    try:
-        image_name = escape_image_name(url)+'.'+get_extension(url)
-        data = download_url(url, headers)
-        output_file = open(directory+'/'+image_name, 'wb')
+    image_name = escape_image_name(url)
+    data = download_url(url, headers)
+    with open(directory + "/" + image_name, "wb") as output_file:
         output_file.write(data)
-        output_file.close()
-    except:
-        pass
 
 
-def multithread_image_download(urls, headers: dict, max_image_fetching_threads: int, image_download_timeout: int, directory: str, verbose=True):
-    total_images = len(urls)
-    pool = ThreadPoolExecutor(max_image_fetching_threads)
-    futures = []
-
-    # TODO: Exclude existing images
+def multi_thread_image_download(
+    urls,
+    headers: dict,
+    max_image_fetching_threads: int,
+    image_download_timeout: int,
+    directory: str,
+    verbose=True,
+):
     if not os.path.isdir(directory):
-        mkdir(directory)
+        os.mkdir(directory)
+    else:
+        # Exclude existing images
+        urls = [url for url in urls if escape_image_name(url) not in os.listdir(directory)]
 
-    # TODO: Remove existing images arg & extensions
+    # Build concurrent thread pool with max_image_fetching_threads
+    with ThreadPoolExecutor(max_image_fetching_threads) as pool:
+        futures = [
+            pool.submit(
+                download_image_simple_with_timeout,
+                url,
+                image_download_timeout,
+                directory,
+                headers,
+            )
+            for url in urls
+        ]
+        if verbose:
+            for f in tqdm(as_completed(futures)):
+                pass
+        else:
+            wait(futures)
 
-    url_index = 0
-    # Append maximum required number of threads (pool will limit the number of ones running concurrently)
-    for url in urls:
-        futures.append(
-            pool.submit(download_image_simple_with_timeout, url, image_download_timeout, directory, headers))
-        # Increment url_index so each call to download_image will take a different url
-        url_index += 1
-
-    # Wait for all threads to execute
-    wait(futures)
-    return len(listdir(directory))
+    return len(os.listdir(directory))

@@ -39,13 +39,23 @@ def download_image(url: str, directory: str, headers: dict):
 
 
 def multi_thread_image_download(
-    urls,
-    headers: dict,
-    max_image_fetching_threads: int,
-    image_download_timeout: int,
-    directory: str,
-    verbose=True,
+    urls, headers: dict, max_image_fetching_threads: int, image_download_timeout: int, directory: str, verbose=True,
 ):
+    """
+    Downloads list of images using multiple threads.
+
+    Parameters:
+    urls (str/list): List of URLs or path to text file with list of URls
+    headers (dict): headers for the urllib file request
+    max_image_fetching_threads (int): maximum number of concurrent image download threads
+    image_download_timeout (int): maximum wait time in seconds for an image download
+    directory (str): destination directory path
+    verbose (bool): show tqdm progress bar
+    """
+    # If urls is not a list is must be a path to a file with a list of urls
+    if not isinstance(urls, list):
+        urls = open(urls, "r").readlines()
+
     if not os.path.isdir(directory):
         os.mkdir(directory)
     else:
@@ -55,17 +65,11 @@ def multi_thread_image_download(
     # Build concurrent thread pool with max_image_fetching_threads
     with ThreadPoolExecutor(max_image_fetching_threads) as pool:
         futures = [
-            pool.submit(
-                download_image_simple_with_timeout,
-                url,
-                image_download_timeout,
-                directory,
-                headers,
-            )
+            pool.submit(download_image_simple_with_timeout, url, image_download_timeout, directory, headers,)
             for url in urls
         ]
         if verbose:
-            for f in tqdm(as_completed(futures)):
+            for _ in tqdm(as_completed(futures)):
                 pass
         else:
             wait(futures)

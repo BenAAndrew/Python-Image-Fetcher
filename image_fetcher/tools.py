@@ -22,7 +22,7 @@ def download_url(url, headers):
 
 def escape_image_name(url):
     """
-    Get URL without extension and 'http(s)://' and removes all non alphanumeric characters
+    Remove 'http(s)://' and all non alphanumeric characters from file URL
 
     Parameters:
     url (str): URL to escape

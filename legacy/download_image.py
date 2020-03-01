@@ -8,9 +8,7 @@ from os import listdir
 from func_timeout import func_timeout, FunctionTimedOut
 
 
-def download_image_simple_with_timeout(
-    url, timeout, directory, headers, existing_images=[], extensions=["jpg", "png"]
-):
+def download_image_simple_with_timeout(url, timeout, directory, headers, existing_images=[], extensions=["jpg", "png"]):
     """
     Downloads image from given URL. Will exit if not complete within timeout seconds. Doesn't validate input params.
 
@@ -24,17 +22,13 @@ def download_image_simple_with_timeout(
     """
     try:
         func_timeout(
-            timeout,
-            download_image_simple,
-            args=(url, directory, headers, existing_images, extensions,),
+            timeout, download_image_simple, args=(url, directory, headers, existing_images, extensions,),
         )
     except FunctionTimedOut:
         pass
 
 
-def download_image_simple(
-    url, directory, headers, existing_images=[], extensions=["jpg", "png"]
-):
+def download_image_simple(url, directory, headers, existing_images=[], extensions=["jpg", "png"]):
     """
     Downloads image from given URL. Doesn't validate input params.
 
@@ -58,12 +52,7 @@ def download_image_simple(
 
 
 def download_image(
-    url,
-    directory,
-    headers,
-    existing_images=[],
-    extensions=["jpg", "png"],
-    raise_errors=False,
+    url, directory, headers, existing_images=[], extensions=["jpg", "png"], raise_errors=False,
 ):
     """
     Downloads image from given URL and returns status code
@@ -80,9 +69,7 @@ def download_image(
     int: Returns 1 if an image was downloaded, 2 if the download was ignored as the image already existed, 
     or 0 if it failed/was aborted due to invalid file type
     """
-    validate_download_image_params(
-        url, directory, headers, existing_images, extensions, raise_errors
-    )
+    validate_download_image_params(url, directory, headers, existing_images, extensions, raise_errors)
     try:
         if get_extension(url) in extensions:
             # Convert escaped URL to the image name (used to ensure same image isn't downloaded again in future)

@@ -110,9 +110,7 @@ def concurrent_images_download(
         pbar.close()
     if verbose:
         print_summary(
-            search_term,
-            total_downloaded=total_images - len(existing_images),
-            total_ignored=len(existing_images),
+            search_term, total_downloaded=total_images - len(existing_images), total_ignored=len(existing_images),
         )
 
 

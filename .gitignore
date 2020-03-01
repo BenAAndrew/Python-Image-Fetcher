@@ -2,7 +2,6 @@ __pycache__/
 .vscode
 chromedriver.exe
 debug.log
-notes.txt
 build/
 dist/
 image_fetcher.egg-info/

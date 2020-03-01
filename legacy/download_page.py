@@ -22,9 +22,7 @@ def launch_driver(browser):
     if browser.browser_type == BrowserType.CHROME:
         return webdriver.Chrome(browser.driver, options=browser.options)
     elif browser.browser_type == BrowserType.FIREFOX:
-        return webdriver.Firefox(
-            executable_path=browser.driver, options=browser.options
-        )
+        return webdriver.Firefox(executable_path=browser.driver, options=browser.options)
 
 
 def download_page(search_term, total_images, browser):

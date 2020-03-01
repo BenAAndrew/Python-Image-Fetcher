@@ -34,14 +34,7 @@ def download_images(
         directory = search_term
     # Validate passed params
     validate_download_images_params(
-        search_term,
-        total_images,
-        extensions,
-        headers,
-        browser,
-        directory,
-        verbose,
-        progress_bar,
+        search_term, total_images, extensions, headers, browser, directory, verbose, progress_bar,
     )
     # Setup variables
     # Download raw HTML from google image search of given term
@@ -61,9 +54,7 @@ def download_images(
     url_index = 0
     while total_downloaded + images_in_folder < total_images:
         # Try to download next URL
-        image = download_image(
-            urls[url_index], directory, headers, existing_images, extensions
-        )
+        image = download_image(urls[url_index], directory, headers, existing_images, extensions)
         url_index += 1
 
         if image:
@@ -84,7 +75,5 @@ def download_images(
         pbar.close()
     if verbose:
         print_summary(
-            search_term,
-            total_downloaded=total_downloaded,
-            total_ignored=images_in_folder,
+            search_term, total_downloaded=total_downloaded, total_ignored=images_in_folder,
         )

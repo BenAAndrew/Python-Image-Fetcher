@@ -53,9 +53,7 @@ def validate_browser(browser):
         raise TypeError("browser must be a legacy.browsers.Browser")
 
 
-def validate_image_fetching_arguments(
-    total_images, extensions, headers, verbose, progress_bar
-):
+def validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar):
     validate_positive_number(total_images, "total_images")
     validate_extensions(extensions)
     validate_headers(headers)
@@ -64,26 +62,15 @@ def validate_image_fetching_arguments(
 
 
 def validate_download_images_params(
-    search_term,
-    total_images,
-    extensions,
-    headers,
-    browser,
-    directory,
-    verbose,
-    progress_bar,
+    search_term, total_images, extensions, headers, browser, directory, verbose, progress_bar,
 ):
     validate_browser(browser)
     validate_search_term(search_term)
     validate_directory(directory)
-    validate_image_fetching_arguments(
-        total_images, extensions, headers, verbose, progress_bar
-    )
+    validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)
 
 
-def validate_download_image_params(
-    url, directory, headers, existing_images, extensions, raise_errors
-):
+def validate_download_image_params(url, directory, headers, existing_images, extensions, raise_errors):
     if not isinstance(url, str):
         raise ValueError("url must be a string")
     validate_directory(directory)
@@ -109,9 +96,7 @@ def validate_concurrent_images_download(
     validate_search_term(search_term)
     validate_directory(directory)
     validate_positive_number(max_image_fetching_threads, "max_image_fetching_threads")
-    validate_image_fetching_arguments(
-        total_images, extensions, headers, verbose, progress_bar
-    )
+    validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)
 
 
 def validate_concurrent_image_search_params(
@@ -139,6 +124,4 @@ def validate_concurrent_image_search_params(
         raise ValueError("directories and search_terms must match in length")
     validate_positive_number(max_similtanous_threads, "max_similtanous_threads")
     validate_positive_number(max_image_fetching_threads, "max_image_fetching_threads")
-    validate_image_fetching_arguments(
-        total_images, extensions, headers, verbose, progress_bar
-    )
+    validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar)

@@ -37,6 +37,4 @@ class Browser:
             self.driver = abspath(driver)
             self.options = firefox_options
         else:
-            raise ValueError(
-                "driver_type not valid, choose from: " + str(list(Browser))
-            )
+            raise ValueError("driver_type not valid, choose from: " + str(list(Browser)))

@@ -2,7 +2,7 @@ from re import sub
 from urllib import request
 
 
-def download_url(url, headers):
+def download_url(url: str, headers: dict):
     """
     Read data from a given URL
 
@@ -20,7 +20,7 @@ def download_url(url, headers):
     return data
 
 
-def escape_image_name(url):
+def escape_image_name(url: str):
     """
     Remove 'http(s)://' and all non alphanumeric characters from file URL
 
@@ -37,3 +37,15 @@ def escape_image_name(url):
     escaped = escaped.split("/", 1)[1]
     # Remove all non alphanumeric characters
     return f"{sub('[^a-zA-Z0-9]+', '', escaped)}.{extension}"
+
+
+def convert_list_to_text_file(urls: list, file_path: str):
+    """
+    Save list to text file
+
+    Parameters:
+    urls (list): List of URLs to save in text file
+    file_path (str): Path to the file
+    """
+    with open(file_path, "w") as output_file:
+        output_file.write("\n".join(urls))

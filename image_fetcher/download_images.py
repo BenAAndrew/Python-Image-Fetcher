@@ -7,7 +7,7 @@ from tqdm import tqdm
 from image_fetcher.tools import escape_image_name, download_url
 
 
-def download_image_simple_with_timeout(url: str, timeout: int, directory: str, headers):
+def download_image_with_timeout(url: str, timeout: int, directory: str, headers):
     """
     Downloads image from given URL. Will exit if not complete within timeout seconds. Doesn't validate input params.
 
@@ -57,7 +57,8 @@ def multi_thread_image_download(
     """
     # If urls is not a list is must be a path to a file with a list of urls
     if not isinstance(urls, list):
-        urls = open(urls, "r").readlines()
+        with open(urls, "r") as url_list_file:
+            urls = url_list_file.read().splitlines()
 
     if not os.path.isdir(directory):
         os.mkdir(directory)
@@ -68,7 +69,7 @@ def multi_thread_image_download(
     # Build concurrent thread pool with max_image_fetching_threads
     with ThreadPoolExecutor(max_image_fetching_threads) as pool:
         futures = [
-            pool.submit(download_image_simple_with_timeout, url, image_download_timeout, directory, headers,)
+            pool.submit(download_image_with_timeout, url, image_download_timeout, directory, headers, )
             for url in urls
         ]
         if verbose:

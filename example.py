@@ -12,6 +12,8 @@ total_images = 10
 
 urls = fetch_images_from_yahoo(driver, search_term, total_images)
 
+driver.close()
+
 multi_thread_image_download(
     urls,
     headers={

@@ -1,7 +1,7 @@
 from time import sleep
 
 
-def fetch_images_from_yahoo(driver, search_term, total_images):
+def fetch_images_from_yahoo(driver, search_term, total_images, file_types=["jpg", "png"]):
     """
     Example image fetching process using yahoo image search
     """
@@ -15,10 +15,9 @@ def fetch_images_from_yahoo(driver, search_term, total_images):
     urls = set()
     while len(urls) < total_images:
         image_src = driver.find_element_by_id("img").get_attribute("src")
-        if image_src.endswith(".jpg") or image_src.endswith(".png"):
+        if image_src.split(".")[-1] in file_types:
             urls.add(image_src)
         sleep(0.5)
         driver.find_element_by_css_selector(".nav.right").click()
 
-    driver.close()
-    return urls
+    return list(urls)

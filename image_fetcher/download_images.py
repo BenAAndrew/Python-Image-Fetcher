@@ -1,67 +1,67 @@
-from image_fetcher.get_image_urls import get_image_urls
-from image_fetcher.validate_params import validate_download_images_params
-from image_fetcher.download_page import download_page
-from image_fetcher.download_image import download_image
-from image_fetcher.tools import get_existing_images, print_summary
-from image_fetcher.browsers import Browser, BrowserType
+import os
+from concurrent.futures import ThreadPoolExecutor, wait
+from os import mkdir, listdir
 
-from tqdm import tqdm
+from func_timeout import func_timeout, FunctionTimedOut
+from image_fetcher.tools import escape_image_name, get_extension, download_url
 
 
-def download_images(search_term, total_images, headers, browser, 
-extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
+def download_image_simple_with_timeout(url, timeout, directory, headers):
     """
-    Downloads images from google for given search_term
+    Downloads image from given URL. Will exit if not complete within timeout seconds. Doesn't validate input params.
 
     Parameters:
-    search_term (str): Given term for downloading images from google
-    total_images (int): Total number of images to download (will skip identical images in the given directory)
-    headers (dict): Headers for urllib to use when requesting from urls (must include 'User-Agent')
+    url (str): URL to try and download image from
+    timeout (int): Seconds to wait for function to execute
+    directory (str): directory to save image to
+    existing_images (list): list of existing images to avoid trying to download an existing image
+    (can be fetched by passing the folder name to get_existing_images(), default is [])
     extensions (list): Image file extensions to accept (defaults to 'jpg' and 'png')
-    directory (str): Directory to save images to (defaults to naming folder same as search_term)
-    progress_bar (bool): Whether to display progress bar during downloading (defaults to True)
-    verbose (bool): Whether to print total downloaded & total ignored at the end (defaults to True)
     """
-    if not directory:
-        directory = search_term
-    #Validate passed params
-    validate_download_images_params(search_term, total_images, extensions, headers, browser, directory, verbose, progress_bar)
-    #Setup variables
-    #Download raw HTML from google image search of given term
-    page = download_page(search_term, total_images, browser)
-    #Get list of iamge URLS from the page
-    urls = get_image_urls(page, verbose=verbose)
+    try:
+        func_timeout(timeout, download_image, args=(url, directory, headers,))
+    except FunctionTimedOut:
+        pass
 
-    existing_images = get_existing_images(directory)
-    images_in_folder = len(existing_images)
-    total_downloaded = 0
-    #If progress bar initialise tqdm
-    if progress_bar:
-        pbar = tqdm(total=total_images)
-        pbar.update(images_in_folder)
-    
-    #Download urls from url list
+
+def download_image(url: str, directory: str, headers: dict):
+    """
+    Downloads image from given URL.
+
+    Parameters:
+    url (str): URL to try and download image from
+    directory (str): directory to save image to
+    headers (dict): headers for the urllib file request
+    """
+    try:
+        image_name = escape_image_name(url)+'.'+get_extension(url)
+        data = download_url(url, headers)
+        output_file = open(directory+'/'+image_name, 'wb')
+        output_file.write(data)
+        output_file.close()
+    except:
+        pass
+
+
+def multithread_image_download(urls, headers: dict, max_image_fetching_threads: int, image_download_timeout: int, directory: str, verbose=True):
+    total_images = len(urls)
+    pool = ThreadPoolExecutor(max_image_fetching_threads)
+    futures = []
+
+    # TODO: Exclude existing images
+    if not os.path.isdir(directory):
+        mkdir(directory)
+
+    # TODO: Remove existing images arg & extensions
+
     url_index = 0
-    while total_downloaded+images_in_folder < total_images:
-        #Try to download next URL
-        image = download_image(urls[url_index], directory, headers, existing_images, extensions)
+    # Append maximum required number of threads (pool will limit the number of ones running concurrently)
+    for url in urls:
+        futures.append(
+            pool.submit(download_image_simple_with_timeout, url, image_download_timeout, directory, headers))
+        # Increment url_index so each call to download_image will take a different url
         url_index += 1
-        
-        if image:
-            #if image was downloaded
-            if image == 1:
-                total_downloaded+=1
-            if progress_bar:
-                pbar.update(1)
 
-        #If we've run out of URL's due to them being erroneous we'll get more
-        if url_index == len(urls):
-            if verbose:
-                print("All URL's attempted, fetching more")
-            page = download_page(search_term, total_images+100, browser)
-            urls = get_image_urls(page, verbose=verbose)
-
-    if progress_bar:
-        pbar.close()
-    if verbose:
-        print_summary(search_term, total_downloaded=total_downloaded, total_ignored=images_in_folder)
+    # Wait for all threads to execute
+    wait(futures)
+    return len(listdir(directory))

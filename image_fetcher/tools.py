@@ -1,27 +1,23 @@
-from image_fetcher.validate_params import validate_directory
-
-from os import listdir, mkdir
-from math import ceil
 from re import sub
+from urllib import request
 
 
-def get_existing_images(directory):
+def download_url(url, headers):
     """
-    Get's a list of files in a given directory or creates it if the directory doesn't exist
+    Read data from a given URL
 
     Parameters:
-    directory (str): directory to search
+    url (str): URL to retrieve data from
+    headers (dict): Headers for urllib to use when requesting from urls (must include 'User-Agent')
 
     Returns:
-    list: Returns list of files in the directory (expty if the directory didn't exist)
+    bytes: Returns bytes of data from the URL
     """
-    validate_directory(directory)
-    directory += '/'
-    try:
-        return listdir(directory)
-    except:
-        mkdir(directory)
-        return []
+    req = request.Request(url, headers=headers)
+    resp = request.urlopen(req)
+    data = resp.read()
+    resp.close()
+    return data
 
 
 def get_extension(url):
@@ -44,13 +40,3 @@ def escape_image_name(url):
     escaped = escaped.split('/',1)[1]
     #Remove all non alphanumeric characters
     return sub("[^a-zA-Z0-9]+", '', escaped)
-
-
-def round_up_to_nearest_hundred(x):
-    return int(ceil(x / 100.0)) * 100
-
-
-def print_summary(search_term, total_downloaded, total_ignored):
-    print(search_term+" DONE")
-    print("Total downloaded = "+str(total_downloaded))
-    print("Total ignored as they already existed = "+str(total_ignored))

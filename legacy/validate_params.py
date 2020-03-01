@@ -1,4 +1,4 @@
-from image_fetcher.browsers import Browser
+from legacy.browsers import Browser
 
 from os import listdir
 
@@ -42,7 +42,7 @@ def validate_bool(var, name):
 
 def validate_browser(browser):
     if not browser or not isinstance(browser, Browser):
-        raise TypeError("browser must be a image_fetcher.browsers.Browser")
+        raise TypeError("browser must be a legacy.browsers.Browser")
 
 def validate_image_fetching_arguments(total_images, extensions, headers, verbose, progress_bar):
     validate_positive_number(total_images, "total_images")

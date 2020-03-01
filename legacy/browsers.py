@@ -28,7 +28,7 @@ class Browser:
         if browser_type == BrowserType.CHROME:
             chrome_options = webdriver.ChromeOptions()
             chrome_options.add_argument('--no-sandbox')
-            chrome_options.add_argument('--headless')
+            # chrome_options.add_argument('--headless')
             self.driver = driver
             self.options = chrome_options
         elif browser_type == BrowserType.FIREFOX:

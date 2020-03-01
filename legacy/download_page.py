@@ -1,5 +1,5 @@
-from image_fetcher.tools import round_up_to_nearest_hundred
-from image_fetcher.browsers import BrowserType
+from legacy.tools import round_up_to_nearest_hundred
+from legacy.browsers import BrowserType
 
 from selenium import webdriver
 from bs4 import BeautifulSoup
@@ -32,5 +32,11 @@ def download_page(search_term, total_images, browser):
         driver.execute_script('window.scrollTo(0,document.body.scrollHeight);')
         sleep(wait_time)
     source = driver.page_source
+    images = driver.find_elements_by_tag_name("img")
+    urls = []
+    for image in images:
+        src = image.get_attribute("src")
+        if src and src.startswith("http"):
+            urls.append(src)
     driver.close()
     return BeautifulSoup(source, 'html.parser')

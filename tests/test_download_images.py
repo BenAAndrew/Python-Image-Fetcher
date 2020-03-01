@@ -45,7 +45,9 @@ class TestDownloadImages:
         image_threads = 2
         timeout = 5
 
-        total_images = multi_thread_image_download(self.urls, TestConfig.HEADERS, image_threads, timeout, TestConfig.IMAGE_DIRECTORY, verbose=False)
+        total_images = multi_thread_image_download(
+            self.urls, TestConfig.HEADERS, image_threads, timeout, TestConfig.IMAGE_DIRECTORY, verbose=False
+        )
         assert total_images == len(self.urls)
         for url in self.urls:
             file_name = escape_image_name(url)
@@ -57,7 +59,14 @@ class TestDownloadImages:
         image_threads = 2
         timeout = 5
 
-        total_images = multi_thread_image_download(TestConfig.URL_LIST_FILE, TestConfig.HEADERS, image_threads, timeout, TestConfig.IMAGE_DIRECTORY, verbose=False)
+        total_images = multi_thread_image_download(
+            TestConfig.URL_LIST_FILE,
+            TestConfig.HEADERS,
+            image_threads,
+            timeout,
+            TestConfig.IMAGE_DIRECTORY,
+            verbose=False,
+        )
         assert total_images == len(self.urls)
         for url in self.urls:
             file_name = escape_image_name(url)

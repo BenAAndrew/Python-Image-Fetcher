@@ -69,8 +69,7 @@ def multi_thread_image_download(
     # Build concurrent thread pool with max_image_fetching_threads
     with ThreadPoolExecutor(max_image_fetching_threads) as pool:
         futures = [
-            pool.submit(download_image_with_timeout, url, image_download_timeout, directory, headers, )
-            for url in urls
+            pool.submit(download_image_with_timeout, url, image_download_timeout, directory, headers,) for url in urls
         ]
         if verbose:
             for _ in tqdm(as_completed(futures)):

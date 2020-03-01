@@ -12,13 +12,13 @@ class BrowserType(Enum):
 def validate_driver(driver_path):
     if "/" in driver_path:
         driver = driver_path.split("/")[-1]
-        directory = driver_path[0:len(driver_path)-len(driver)-1]
+        directory = driver_path[0 : len(driver_path) - len(driver) - 1]
         if not driver in listdir(directory):
-            raise ValueError(driver+" not found in "+directory)
+            raise ValueError(driver + " not found in " + directory)
     else:
         driver = driver_path
         if not driver in listdir():
-            raise ValueError(driver+" not found in current directory")
+            raise ValueError(driver + " not found in current directory")
 
 
 class Browser:
@@ -27,7 +27,7 @@ class Browser:
         self.browser_type = browser_type
         if browser_type == BrowserType.CHROME:
             chrome_options = webdriver.ChromeOptions()
-            chrome_options.add_argument('--no-sandbox')
+            chrome_options.add_argument("--no-sandbox")
             # chrome_options.add_argument('--headless')
             self.driver = driver
             self.options = chrome_options
@@ -37,4 +37,6 @@ class Browser:
             self.driver = abspath(driver)
             self.options = firefox_options
         else:
-            raise ValueError("driver_type not valid, choose from: "+str(list(Browser)))
+            raise ValueError(
+                "driver_type not valid, choose from: " + str(list(Browser))
+            )

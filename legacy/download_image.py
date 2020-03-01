@@ -8,7 +8,9 @@ from os import listdir
 from func_timeout import func_timeout, FunctionTimedOut
 
 
-def download_image_simple_with_timeout(url, timeout, directory, headers, existing_images=[], extensions=['jpg','png']):
+def download_image_simple_with_timeout(
+    url, timeout, directory, headers, existing_images=[], extensions=["jpg", "png"]
+):
     """
     Downloads image from given URL. Will exit if not complete within timeout seconds. Doesn't validate input params.
 
@@ -21,12 +23,18 @@ def download_image_simple_with_timeout(url, timeout, directory, headers, existin
     extensions (list): Image file extensions to accept (defaults to 'jpg' and 'png')
     """
     try:
-        func_timeout(timeout, download_image_simple, args=(url, directory, headers, existing_images, extensions,))
+        func_timeout(
+            timeout,
+            download_image_simple,
+            args=(url, directory, headers, existing_images, extensions,),
+        )
     except FunctionTimedOut:
         pass
 
 
-def download_image_simple(url, directory, headers, existing_images=[], extensions=['jpg','png']):
+def download_image_simple(
+    url, directory, headers, existing_images=[], extensions=["jpg", "png"]
+):
     """
     Downloads image from given URL. Doesn't validate input params.
 
@@ -39,17 +47,24 @@ def download_image_simple(url, directory, headers, existing_images=[], extension
     """
     try:
         if get_extension(url) in extensions:
-            image_name = escape_image_name(url)+'.'+get_extension(url)
+            image_name = escape_image_name(url) + "." + get_extension(url)
             if image_name not in existing_images:
                 data = download_url(url, headers)
-                output_file = open(directory+'/'+image_name, 'wb')
+                output_file = open(directory + "/" + image_name, "wb")
                 output_file.write(data)
                 output_file.close()
     except:
         pass
 
 
-def download_image(url, directory, headers, existing_images=[], extensions=['jpg','png'], raise_errors=False):
+def download_image(
+    url,
+    directory,
+    headers,
+    existing_images=[],
+    extensions=["jpg", "png"],
+    raise_errors=False,
+):
     """
     Downloads image from given URL and returns status code
 
@@ -65,15 +80,17 @@ def download_image(url, directory, headers, existing_images=[], extensions=['jpg
     int: Returns 1 if an image was downloaded, 2 if the download was ignored as the image already existed, 
     or 0 if it failed/was aborted due to invalid file type
     """
-    validate_download_image_params(url, directory, headers, existing_images, extensions, raise_errors)
+    validate_download_image_params(
+        url, directory, headers, existing_images, extensions, raise_errors
+    )
     try:
         if get_extension(url) in extensions:
-            #Convert escaped URL to the image name (used to ensure same image isn't downloaded again in future)
-            image_name = escape_image_name(url)+'.'+get_extension(url)
+            # Convert escaped URL to the image name (used to ensure same image isn't downloaded again in future)
+            image_name = escape_image_name(url) + "." + get_extension(url)
             if image_name not in existing_images:
                 data = download_url(url, headers)
-                #Write data from URL request to image
-                output_file = open(directory+'/'+image_name, 'wb')
+                # Write data from URL request to image
+                output_file = open(directory + "/" + image_name, "wb")
                 output_file.write(data)
                 output_file.close()
                 if image_name in listdir(directory):
@@ -82,6 +99,6 @@ def download_image(url, directory, headers, existing_images=[], extensions=['jpg
                 return 2
     except:
         if raise_errors:
-            raise 
+            raise
         pass
     return 0

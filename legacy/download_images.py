@@ -8,8 +8,16 @@ from legacy.browsers import Browser, BrowserType
 from tqdm import tqdm
 
 
-def download_images(search_term, total_images, headers, browser, 
-extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
+def download_images(
+    search_term,
+    total_images,
+    headers,
+    browser,
+    extensions=["jpg", "png"],
+    directory=None,
+    progress_bar=True,
+    verbose=True,
+):
     """
     Downloads images from google for given search_term
 
@@ -24,44 +32,59 @@ extensions=['jpg','png'], directory=None, progress_bar=True, verbose=True):
     """
     if not directory:
         directory = search_term
-    #Validate passed params
-    validate_download_images_params(search_term, total_images, extensions, headers, browser, directory, verbose, progress_bar)
-    #Setup variables
-    #Download raw HTML from google image search of given term
+    # Validate passed params
+    validate_download_images_params(
+        search_term,
+        total_images,
+        extensions,
+        headers,
+        browser,
+        directory,
+        verbose,
+        progress_bar,
+    )
+    # Setup variables
+    # Download raw HTML from google image search of given term
     page = download_page(search_term, total_images, browser)
-    #Get list of iamge URLS from the page
+    # Get list of iamge URLS from the page
     urls = get_image_urls(page, verbose=verbose)
 
     existing_images = get_existing_images(directory)
     images_in_folder = len(existing_images)
     total_downloaded = 0
-    #If progress bar initialise tqdm
+    # If progress bar initialise tqdm
     if progress_bar:
         pbar = tqdm(total=total_images)
         pbar.update(images_in_folder)
-    
-    #Download urls from url list
+
+    # Download urls from url list
     url_index = 0
-    while total_downloaded+images_in_folder < total_images:
-        #Try to download next URL
-        image = download_image(urls[url_index], directory, headers, existing_images, extensions)
+    while total_downloaded + images_in_folder < total_images:
+        # Try to download next URL
+        image = download_image(
+            urls[url_index], directory, headers, existing_images, extensions
+        )
         url_index += 1
-        
+
         if image:
-            #if image was downloaded
+            # if image was downloaded
             if image == 1:
-                total_downloaded+=1
+                total_downloaded += 1
             if progress_bar:
                 pbar.update(1)
 
-        #If we've run out of URL's due to them being erroneous we'll get more
+        # If we've run out of URL's due to them being erroneous we'll get more
         if url_index == len(urls):
             if verbose:
                 print("All URL's attempted, fetching more")
-            page = download_page(search_term, total_images+100, browser)
+            page = download_page(search_term, total_images + 100, browser)
             urls = get_image_urls(page, verbose=verbose)
 
     if progress_bar:
         pbar.close()
     if verbose:
-        print_summary(search_term, total_downloaded=total_downloaded, total_ignored=images_in_folder)
+        print_summary(
+            search_term,
+            total_downloaded=total_downloaded,
+            total_ignored=images_in_folder,
+        )

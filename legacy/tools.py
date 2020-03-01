@@ -16,7 +16,7 @@ def get_existing_images(directory):
     list: Returns list of files in the directory (expty if the directory didn't exist)
     """
     validate_directory(directory)
-    directory += '/'
+    directory += "/"
     try:
         return listdir(directory)
     except:
@@ -38,12 +38,12 @@ def escape_image_name(url):
     Returns:
     str: Escaped URL
     """
-    #Remove extension
-    escaped = url[:len(url)-len(url.split('.')[1])-1]
-    #Remove http:// or https://
-    escaped = escaped.split('/',1)[1]
-    #Remove all non alphanumeric characters
-    return sub("[^a-zA-Z0-9]+", '', escaped)
+    # Remove extension
+    escaped = url[: len(url) - len(url.split(".")[1]) - 1]
+    # Remove http:// or https://
+    escaped = escaped.split("/", 1)[1]
+    # Remove all non alphanumeric characters
+    return sub("[^a-zA-Z0-9]+", "", escaped)
 
 
 def round_up_to_nearest_hundred(x):
@@ -51,6 +51,6 @@ def round_up_to_nearest_hundred(x):
 
 
 def print_summary(search_term, total_downloaded, total_ignored):
-    print(search_term+" DONE")
-    print("Total downloaded = "+str(total_downloaded))
-    print("Total ignored as they already existed = "+str(total_ignored))
+    print(search_term + " DONE")
+    print("Total downloaded = " + str(total_downloaded))
+    print("Total ignored as they already existed = " + str(total_ignored))

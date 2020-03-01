@@ -32,14 +32,14 @@ def get_image_urls(page, verbose=True):
     list: Returns list of image URL's
     """
     image_urls = []
-    #Get all image source URLS
-    for image_html in page.find_all("div",{"class":"rg_meta"}):
+    # Get all image source URLS
+    for image_html in page.find_all("div", {"class": "rg_meta"}):
         try:
-            #Add the image source to urls
+            # Add the image source to urls
             final_image_url = loads(image_html.text)["ou"]
             image_urls.append(final_image_url)
         except:
             break
     if verbose:
-        print(str(len(image_urls))+" image urls found")
+        print(str(len(image_urls)) + " image urls found")
     return image_urls

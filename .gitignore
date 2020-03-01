@@ -9,3 +9,4 @@ image_fetcher.egg-info/
 *.log
 upload.bat
 .idea/*
+docs-template/mkdocs-material

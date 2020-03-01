@@ -31,5 +31,5 @@ setuptools.setup(
         "urllib3>=1.25.5",
         "wincertstore>=0.2",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
 )

@@ -1,6 +1,5 @@
 import os
 from concurrent.futures import ThreadPoolExecutor, wait, as_completed
-
 from func_timeout import func_timeout, FunctionTimedOut
 from tqdm import tqdm
 
@@ -16,11 +15,15 @@ def download_image_with_timeout(url: str, timeout: int, directory: str, headers)
     timeout (int): seconds to wait for function to execute
     directory (str): directory to save image to
     headers (dict): headers for the urllib file request
+
+    Returns:
+    bool: whether image was downloaded before timeout
     """
     try:
         func_timeout(timeout, download_image, args=(url, directory, headers,))
+        return True
     except FunctionTimedOut:
-        pass
+        return False
 
 
 def download_image(url: str, directory: str, headers: dict):
@@ -39,13 +42,13 @@ def download_image(url: str, directory: str, headers: dict):
 
 
 def multi_thread_image_download(
-    urls, headers: dict, max_image_fetching_threads: int, image_download_timeout: int, directory: str, verbose=True,
+    url_file_path: str, headers: dict, max_image_fetching_threads: int, image_download_timeout: int, directory: str, verbose=True,
 ):
     """
     Downloads list of images using multiple threads.
 
     Parameters:
-    urls (str/list): List of URLs or path to text file with list of URls
+    url_file_path (str): path to text file with list of URLs
     headers (dict): headers for the urllib file request
     max_image_fetching_threads (int): maximum number of concurrent image download threads
     image_download_timeout (int): maximum wait time in seconds for an image download
@@ -56,9 +59,8 @@ def multi_thread_image_download(
     int: total files in the directory
     """
     # If urls is not a list is must be a path to a file with a list of urls
-    if not isinstance(urls, list):
-        with open(urls, "r") as url_list_file:
-            urls = url_list_file.read().splitlines()
+    with open(url_file_path, "r") as url_file:
+        urls = url_file.read().splitlines()
 
     if not os.path.isdir(directory):
         os.mkdir(directory)

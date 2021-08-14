@@ -37,15 +37,3 @@ def escape_image_name(url: str):
     escaped = escaped.split("/", 1)[1]
     # Remove all non alphanumeric characters
     return f"{sub('[^a-zA-Z0-9]+', '', escaped)}.{extension}"
-
-
-def convert_list_to_text_file(urls: list, file_path: str):
-    """
-    Save list to text file
-
-    Parameters:
-    urls (list): List of URLs to save in text file
-    file_path (str): Path to the file
-    """
-    with open(file_path, "w") as output_file:
-        output_file.write("\n".join(urls))

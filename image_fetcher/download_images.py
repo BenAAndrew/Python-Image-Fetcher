@@ -20,7 +20,15 @@ def download_image_with_timeout(url: str, timeout: int, directory: str, headers)
     bool: whether image was downloaded before timeout
     """
     try:
-        func_timeout(timeout, download_image, args=(url, directory, headers,))
+        func_timeout(
+            timeout,
+            download_image,
+            args=(
+                url,
+                directory,
+                headers,
+            ),
+        )
         return True
     except FunctionTimedOut:
         return False
@@ -42,7 +50,12 @@ def download_image(url: str, directory: str, headers: dict):
 
 
 def multi_thread_image_download(
-    url_file_path: str, headers: dict, max_image_fetching_threads: int, image_download_timeout: int, directory: str, verbose=True,
+    url_file_path: str,
+    headers: dict,
+    max_image_fetching_threads: int,
+    image_download_timeout: int,
+    directory: str,
+    verbose=True,
 ):
     """
     Downloads list of images using multiple threads.
@@ -71,7 +84,14 @@ def multi_thread_image_download(
     # Build concurrent thread pool with max_image_fetching_threads
     with ThreadPoolExecutor(max_image_fetching_threads) as pool:
         futures = [
-            pool.submit(download_image_with_timeout, url, image_download_timeout, directory, headers,) for url in urls
+            pool.submit(
+                download_image_with_timeout,
+                url,
+                image_download_timeout,
+                directory,
+                headers,
+            )
+            for url in urls
         ]
         if verbose:
             for _ in tqdm(as_completed(futures)):

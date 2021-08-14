@@ -1,5 +1,6 @@
 from image_fetcher.tools import escape_image_name
 
+
 class TestTools:
     def test_escape_image_name_http(self):
         url = "http://www.fakewebsite.com/sample.jpg"

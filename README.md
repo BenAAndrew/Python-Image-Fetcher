@@ -25,7 +25,7 @@ multi_thread_image_download(
 )
 ```
 
-If you have your URL's saved in my text file you can also give the path to that file
+If you have your URL's saved in a text file you can instead give the path to that file
 ```
 multi_thread_image_download(
     "urls.txt",
@@ -39,6 +39,7 @@ multi_thread_image_download(
     - By default is set the number of cpu cores x 5
 - **download_timeout** (int): Seconds before a download is abandoned
     - Increasing this means more time will be allowed per download. If every download is important you should set this high
+    - If set to None, download will only timeout if the connection does so
     - The default is 5 seconds
 - **verbose** (bool): Whether to show progress bar
     - On by default

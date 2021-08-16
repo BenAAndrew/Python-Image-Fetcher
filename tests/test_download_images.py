@@ -34,7 +34,7 @@ class TestDownloadImages:
         timeout = 5
         url = URLS[0]
 
-        successful = download_image_with_timeout(url, timeout, IMAGE_DIRECTORY)
+        successful = download_image_with_timeout(url, IMAGE_DIRECTORY, timeout)
 
         assert successful
         file_name = escape_image_name(url)
@@ -46,7 +46,7 @@ class TestDownloadImages:
         timeout = 0
         url = URLS[0]
 
-        successful = download_image_with_timeout(url, timeout, IMAGE_DIRECTORY)
+        successful = download_image_with_timeout(url, IMAGE_DIRECTORY, timeout)
 
         assert not successful
         file_name = escape_image_name(url)

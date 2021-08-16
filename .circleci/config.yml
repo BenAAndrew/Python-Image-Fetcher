@@ -1,0 +1,29 @@
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.2.5
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: Add folder permissions
+          command: sudo chown -R circleci:circleci /usr/local/bin && sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
+      - restore_cache:
+          key: deps-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CACHE_VERSION }}
+      - run:
+          name: Install dependencies
+          command: sudo pip install -r requirements.txt
+      - run:
+          name: Install pytest
+          command: sudo pip install pytest==6.2.2
+      - save_cache:
+          key: deps-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CACHE_VERSION }}
+          paths:
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.6/site-packages"
+      - run:
+          name: Tests
+          command: pytest

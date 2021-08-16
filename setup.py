@@ -3,12 +3,15 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open("requirements.txt", "r") as f:
+    install_requires = f.read().splitlines()
+
 setuptools.setup(
     name="image_fetcher",
-    version="1.1.3",
+    version="2.0.0",
     author="Ben Andrew",
     author_email="benandrew89@gmail.com",
-    description="Package for downloading images from google",
+    description="A simple lightweight library to download images (and other files)",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/BenAAndrew/Python-Image-Fetcher",
@@ -18,18 +21,6 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=[
-        "beautifulsoup4>=4.8.0",
-        "bs4>=0.0.1",
-        "certifi>=2019.9.11",
-        "chardet>=3.0.4",
-        "func-timeout>=4.3.5",
-        "idna>=2.8",
-        "selenium>=3.141.0",
-        "soupsieve>=1.9.3",
-        "tqdm>=4.36.1",
-        "urllib3>=1.25.5",
-        "wincertstore>=0.2",
-    ],
-    python_requires=">=3.6",
+    install_requires=install_requires,
+    python_requires=">=3.5",
 )

@@ -2,21 +2,19 @@ from re import sub
 from urllib import request
 
 
-def download_url(url: str, headers: dict):
+def download_url(url: str):
     """
     Read data from a given URL
 
     Parameters:
     url (str): URL to retrieve data from
-    headers (dict): Headers for urllib to use when requesting from urls (must include 'User-Agent')
 
     Returns:
     bytes: Returns bytes of data from the URL
     """
-    req = request.Request(url, headers=headers)
-    resp = request.urlopen(req)
-    data = resp.read()
-    resp.close()
+    req = request.Request(url)
+    with request.urlopen(req) as resp:
+        data = resp.read()
     return data
 
 

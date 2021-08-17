@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="image_fetcher",
-    version="2.0.2",
+    version="2.0.1",
     author="Ben Andrew",
     author_email="benandrew89@gmail.com",
     description="A simple lightweight library to download images (and other files)",

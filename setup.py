@@ -21,7 +21,7 @@ setup(
     install_requires=[
         "func-timeout==4.3.5",
         "tqdm==4.62.0",
-        "urllib3==1.26.6",
+        "urllib3==1.26.18",
     ],
     python_requires=">=3.5",
 )
